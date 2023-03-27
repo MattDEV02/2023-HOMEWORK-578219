@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"it.uniroma3.diadia.ambienti","l":"Labirinto"}];updateSearchResults();
