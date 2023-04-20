@@ -20,7 +20,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class Labirinto {
 
-	private Stanza stanzaIngresso;
+	private Stanza stanzaCorrente;
 	private Stanza stanzaVincente;
 
 	/**
@@ -37,19 +37,20 @@ public class Labirinto {
 	 * Crea le stanze con gli attrezzi e le vie di collegamento.
 	 * 
 	 */
-	private void init() {
-		/* creazione gli attrezzi */
+	private void init() { // creaStanze()
+		/* crea gli attrezzi */
 		Attrezzo lanterna = new Attrezzo("lanterna", 3);
 		Attrezzo osso = new Attrezzo("osso", 1);
+		Attrezzo piedediporco = new Attrezzo("piedediporco", 2);
 
-		/* creazione stanze */
+		/* crea stanze del labirinto */
 		Stanza atrio = new Stanza("Atrio");
-		Stanza aulaN11 = new Stanza("Aula N11");
-		Stanza aulaN10 = new Stanza("Aula N10");
-		Stanza laboratorio = new Stanza("Laboratorio Campus");
+		Stanza aulaN11 = new StanzaMagica("Aula N11");
+		Stanza aulaN10 = new StanzaBloccata("Aula N10", "est", "piedediporco");
+		Stanza laboratorio = new StanzaBuia("Laboratorio Campus", "lanterna");
 		Stanza biblioteca = new Stanza("Biblioteca");
 
-		/* unisce le stanze */
+		/* collega le stanze */
 		atrio.impostaStanzaAdiacente("nord", biblioteca);
 		atrio.impostaStanzaAdiacente("est", aulaN11);
 		atrio.impostaStanzaAdiacente("sud", aulaN10);
@@ -63,13 +64,13 @@ public class Labirinto {
 		laboratorio.impostaStanzaAdiacente("ovest", aulaN11);
 		biblioteca.impostaStanzaAdiacente("sud", atrio);
 
-		/* metto gli attrezzi nelle stanze */
+		/* pone gli attrezzi nelle stanze */
 		aulaN10.addAttrezzo(lanterna);
 		atrio.addAttrezzo(osso);
+		aulaN11.addAttrezzo(piedediporco);
 
-		// il gioco inzia nell'atrio
-		this.stanzaIngresso = atrio;
-		// il gioco si vince quando si raggiunge la biblioteca
+		// il gioco comincia nell'atrio
+		this.stanzaCorrente = atrio;
 		this.stanzaVincente = biblioteca;
 	}
 
@@ -78,7 +79,15 @@ public class Labirinto {
 	 * @return la stanza d'ingresso (atrio).
 	 */
 	public Stanza getStanzaCorrente() {
-		return this.stanzaIngresso;
+		return this.stanzaCorrente;
+	}
+
+	/**
+	 * 
+	 * @param la stanza nuova d'ingresso.
+	 */
+	public void setStanzaCorrente(Stanza stanzaCorrente) {
+		this.stanzaCorrente = stanzaCorrente;
 	}
 
 	/**
@@ -87,14 +96,6 @@ public class Labirinto {
 	 */
 	public Stanza getStanzaVincente() {
 		return this.stanzaVincente;
-	}
-
-	/**
-	 * 
-	 * @param la stanza nuova d'ingresso.
-	 */
-	public void setStanzaCorrente(Stanza stanzaCorrente) {
-		this.stanzaIngresso = stanzaCorrente;
 	}
 
 	/**

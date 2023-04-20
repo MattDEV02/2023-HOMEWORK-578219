@@ -11,7 +11,7 @@ import java.util.Scanner;
  * @version 1
  * 
  */
-public class IOConsole {
+public class IOConsole implements IO {
 
 	/**
 	 * 
