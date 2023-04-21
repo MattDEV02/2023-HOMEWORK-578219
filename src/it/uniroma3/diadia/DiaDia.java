@@ -96,7 +96,7 @@ public class DiaDia {
 	 * @return true se l'istruzione e' stata eseguita correttamenrte ed il gioco
 	 *         continua, false altrimenti.
 	 */
-	private boolean processaIstruzione(String istruzione) {
+	public boolean processaIstruzione(String istruzione) {
 		FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica(this.io);
 		Comando comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
