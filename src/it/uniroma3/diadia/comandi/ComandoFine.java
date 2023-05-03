@@ -16,17 +16,17 @@ public class ComandoFine implements Comando {
 	}
 
 	@Override
+	public String getParametro() {
+		return null;
+	}
+
+	@Override
 	public void setParametro(String parametro) {
 	}
 
 	@Override
 	public String getNome() {
 		return ComandoFine.NOME;
-	}
-
-	@Override
-	public String getParametro() {
-		return null;
 	}
 
 	@Override

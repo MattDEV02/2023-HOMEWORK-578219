@@ -38,4 +38,8 @@ public class StanzaBloccata extends Stanza {
 				&& this.nomeAttrezzoSbloccante.equals(s.nomeAttrezzoSbloccante);
 	}
 
+	public boolean isBloccata() {
+		return this.nomeAttrezzoSbloccante != null && this.direzioneBloccata != null
+				&& this.getClass().toString().equals("class it.uniroma3.diadia.ambienti.StanzaBloccata");
+	}
 }

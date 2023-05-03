@@ -31,10 +31,15 @@ public class StanzaMagica extends Stanza {
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (attrezzo == null)
 			return false;
-		if (this.contatoreAttrezziPosati > this.sogliaMagica)
+		if (this.contatoreAttrezziPosati >= this.sogliaMagica)
 			attrezzo = this.modificaAttrezzo(attrezzo);
 		this.contatoreAttrezziPosati++;
 		return super.addAttrezzo(attrezzo);
+	}
+
+	public boolean isMagica() {
+		return this.sogliaMagica > 0 && this.contatoreAttrezziPosati >= 0
+				&& this.getClass().toString().equals("class it.uniroma3.diadia.ambienti.StanzaMagica");
 	}
 
 }

@@ -1,6 +1,7 @@
 package it.uniroma3.diadia.ambienti;
 
 public class StanzaBuia extends Stanza {
+
 	private String nomeAttrezzoRivelatore;
 
 	public StanzaBuia(String nome, String nomeAttrezzoRivelatore) {
@@ -27,5 +28,10 @@ public class StanzaBuia extends Stanza {
 	public boolean equals(Object o) {
 		StanzaBuia s = (StanzaBuia) (o); // down-casting.
 		return super.equals(s) && this.nomeAttrezzoRivelatore.equals(s.nomeAttrezzoRivelatore);
+	}
+
+	public boolean isBuia() {
+		return this.nomeAttrezzoRivelatore != null
+				&& this.getClass().toString().equals("class it.uniroma3.diadia.ambienti.StanzaBuia");
 	}
 }

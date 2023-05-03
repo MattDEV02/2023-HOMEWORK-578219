@@ -1,5 +1,7 @@
 package it.uniroma3.diadia;
 
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
 import it.uniroma3.diadia.giocatore.Giocatore;
@@ -41,9 +43,15 @@ public class DiaDia {
 	 *           tastiera e schermo.
 	 * 
 	 */
+	public DiaDia(IO IO, Labirinto labirinto) {
+		this.io = IO;
+		this.partita = new Partita(labirinto);
+	}
+
 	public DiaDia(IO IO) {
 		this.io = IO;
-		this.partita = new Partita();
+		Labirinto labirinto = new Labirinto();
+		this.partita = new Partita(labirinto);
 	}
 
 	/**
@@ -53,7 +61,7 @@ public class DiaDia {
 	 * 
 	 */
 	public DiaDia(DiaDia diaDia) {
-		this(diaDia.io);
+		this(diaDia.io, diaDia.getPartita().getLabirinto());
 	}
 
 	/**
@@ -100,55 +108,16 @@ public class DiaDia {
 		FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica(this.io);
 		Comando comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
-		if (this.partita.isVinta())
-			io.mostraMessaggio("\nComplimenti hai vinto!");
-		else if (this.partita.isPersa())
+		if (this.partita.isVinta()) {
+			io.mostraMessaggio("\nComplimenti hai vinto! Hai trovato la stanza vincente ("
+					+ this.partita.getLabirinto().getStanzaVincente().getNome() + ").");
+			this.partita.setFinita();
+		} else if (this.partita.isPersa()) {
 			io.mostraMessaggio("\nMi dispiace ma hai esaurito i CFU e dunque hai perso.");
+			this.partita.setFinita();
+		}
 		return this.partita.isFinita();
 	}
-
-	/**
-	 * permette al giocatore di guardarsi attorno stampando a schermo il contenuto
-	 * dell'attuale stanza e borsa.
-	 * 
-	 */
-
-	/**
-	 * Stampa informazioni di aiuto per il giocatore.
-	 * 
-	 */
-
-	/**
-	 * Permette al giocatore di spostarsi in una determinata stanza partendo da data
-	 * una direzione. Se c'e' una stanza (data la direzione) il giocatore ci entra e
-	 * ne stampa il nome, altrimenti stampa su schermo un determinato messaggio di
-	 * errore.
-	 * 
-	 * @param direzione direzione della stanza nella quale il giocatore desidera
-	 *                  andare.
-	 * 
-	 */
-
-	/**
-	 * Raccoglie un attrezzo dalla stanza corrente (rimuovendolo da essa) e lo mette
-	 * nella borsa.
-	 * 
-	 * @param attrezzo da prendere dalla stanza.
-	 * 
-	 */
-
-	/**
-	 * Prende un attrezzo dalla borsa, lo posa nella stanza e lo rimuove dalla
-	 * borsa.
-	 * 
-	 * @param nome dell'attrezzo da posare.
-	 *
-	 */
-
-	/**
-	 * Comando "Fine" partita se si desidera smettere di giocare.
-	 * 
-	 */
 
 	/**
 	 * metodo principale del progetto.
@@ -158,7 +127,17 @@ public class DiaDia {
 	 */
 	public final static void main(String[] args) {
 		final IO io = new IOConsole();
-		new DiaDia(io).gioca();
+		Labirinto labirinto = new LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("osso", 1)
+				.addStanzaVincente("Biblioteca").addStanzaMagica("Aula N11", 1).addAttrezzo("piedediporco", 3)
+				.addStanzaBloccata("Aula N10", "est", "piedediporco").addAttrezzo("lanterna", 2)
+				.addStanzaBuia("Laboratorio", "lanterna").addAdiacenza("Atrio", "Biblioteca", "nord")
+				.addAdiacenza("Biblioteca", "Atrio", "sud").addAdiacenza("Atrio", "Aula N11", "est")
+				.addAdiacenza("Atrio", "Aula N10", "sud").addAdiacenza("Atrio", "Laboratorio", "ovest")
+				.addAdiacenza("Aula N11", "Laboratorio", "est").addAdiacenza("Aula N11", "Atrio", "ovest")
+				.addAdiacenza("Aula N10", "Atrio", "nord").addAdiacenza("Aula N10", "Aula N11", "est")
+				.addAdiacenza("Aula N10", "Laboratorio", "ovest").addAdiacenza("Laboratorio", "Atrio", "est")
+				.addAdiacenza("Laboratorio", "Aula N11", "ovest").getLabirinto();
+		new DiaDia(io, labirinto).gioca();
 		// N.B. = per i test ho creato una src folder chiamata test
 	}
 }

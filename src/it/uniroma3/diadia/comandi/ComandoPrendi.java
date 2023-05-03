@@ -13,7 +13,7 @@ public class ComandoPrendi implements Comando {
 
 	@Override
 	public void esegui(Partita partita) {
-		Stanza stanzaCorrente = partita.getStanzaCorrente();
+		Stanza stanzaCorrente = partita.getLabirinto().getStanzaIniziale();
 		if (stanzaCorrente.hasAttrezzo(nomeAttrezzo)) {
 			Attrezzo attrezzoDaPrendere = stanzaCorrente.getAttrezzo(this.nomeAttrezzo);
 			if (stanzaCorrente.removeAttrezzo(nomeAttrezzo)) {

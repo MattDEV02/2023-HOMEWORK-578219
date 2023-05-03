@@ -16,6 +16,15 @@ class StanzaTest { // 25 / 25
 	private Stanza bar;
 	private Stanza mensa;
 
+	@BeforeEach // Denotes that the annotated method should be executed before each @Test
+	public void setUp() throws Exception { // collega le stanze per testare i metodi impostaStanzaAdiacente e
+		// getStanzaAdiacente
+		this.bar = stanzaSingleton(new Attrezzo("tazzina", 1));
+		this.mensa = stanzaSingleton(new Attrezzo("piatto", 2));
+		this.bar.impostaStanzaAdiacente("nord", this.mensa);
+		this.mensa.impostaStanzaAdiacente("sud", this.bar);
+	}
+
 	@Before
 	private Stanza stanza(Attrezzo... attrezzi) {
 		final int numeroAttrezzi = attrezzi.length;
@@ -41,15 +50,6 @@ class StanzaTest { // 25 / 25
 		return stanza(new Attrezzo("osso", 1), new Attrezzo("martello", 2), new Attrezzo("chiodo", 1),
 				new Attrezzo("trapano", 3), new Attrezzo("spatola", 1), new Attrezzo("cofana", 3),
 				new Attrezzo("spada", 3), new Attrezzo("scudo", 1), new Attrezzo("pala", 4), new Attrezzo("metro", 2));
-	}
-
-	@BeforeEach // Denotes that the annotated method should be executed before each @Test
-	void setUp() { // collega le stanze per testare i metodi impostaStanzaAdiacente e
-					// getStanzaAdiacente
-		this.bar = stanzaSingleton(new Attrezzo("tazzina", 1));
-		this.mensa = stanzaSingleton(new Attrezzo("piatto", 2));
-		this.bar.impostaStanzaAdiacente("nord", this.mensa);
-		this.mensa.impostaStanzaAdiacente("sud", this.bar);
 	}
 
 	@Test

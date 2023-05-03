@@ -22,37 +22,16 @@ public class Partita {
 	private boolean finita;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
-	private Stanza stanzaCorrente;
-	private Stanza stanzaVincente;
 
 	/**
 	 * 
 	 * Costruttore classe Partita.
 	 * 
 	 */
-	public Partita() {
+	public Partita(Labirinto labirinto) {
 		this.finita = false;
-		this.labirinto = new Labirinto();
+		this.labirinto = labirinto;
 		this.giocatore = new Giocatore();
-		this.stanzaCorrente = this.labirinto.getStanzaCorrente();
-		this.stanzaVincente = this.labirinto.getStanzaVincente();
-	}
-
-	/**
-	 * 
-	 * @return la stanza vincente.
-	 */
-	public Stanza getStanzaVincente() {
-		return this.stanzaVincente;
-	}
-
-	/**
-	 * aggiorna la stanza corrente con la prossima stanza.
-	 * 
-	 * @param nuovaStanzaVincente nuova stanza vincente.
-	 */
-	public void setStanzaVincente(Stanza nuovaStanzaVincente) {
-		this.stanzaVincente = nuovaStanzaVincente;
 	}
 
 	/**
@@ -70,23 +49,6 @@ public class Partita {
 	 */
 	public void setFinita() {
 		this.finita = true;
-	}
-
-	/**
-	 * 
-	 * @return restituisce la stanza corrente.
-	 */
-	public Stanza getStanzaCorrente() {
-		return this.stanzaCorrente;
-	}
-
-	/**
-	 * aggiorna la stanza corrente con la prossima stanza.
-	 * 
-	 * @param prossimaStanza la prossima stanza.
-	 */
-	public void setStanzaCorrente(Stanza prossimaStanza) {
-		this.stanzaCorrente = prossimaStanza;
 	}
 
 	/**
@@ -122,6 +84,15 @@ public class Partita {
 	}
 
 	/**
+	 * Restituisce true se e solo se la partita è finita.
+	 * 
+	 * @return vero se partita finita.
+	 */
+	public boolean isFinita() {
+		return this.getFinita() || this.isPersa() || this.isVinta();
+	}
+
+	/**
 	 * Restituisce true se la partita è stata persa, false altrimenti.
 	 * 
 	 * @return true se il giocatore ha terminato i cfu, false altrimenti.
@@ -136,16 +107,8 @@ public class Partita {
 	 * @return vero se partita vinta.
 	 */
 	public boolean isVinta() {
-		return this.getStanzaCorrente() == this.getStanzaVincente() && this.getGiocatore().getCfu() > 0;
-	}
-
-	/**
-	 * Restituisce true se e solo se la partita è finita.
-	 * 
-	 * @return vero se partita finita.
-	 */
-	public boolean isFinita() {
-		return this.getFinita() || this.isPersa() || this.isVinta();
+		return this.getGiocatore().getCfu() > 0
+				&& this.getLabirinto().getStanzaVincente().equals(this.getLabirinto().getStanzaIniziale());
 	}
 
 }

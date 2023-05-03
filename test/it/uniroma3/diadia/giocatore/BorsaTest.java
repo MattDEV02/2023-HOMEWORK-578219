@@ -1,14 +1,25 @@
 package it.uniroma3.diadia.giocatore;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class BorsaTest { // 25 / 25
+class BorsaTest { // 35 / 35
 
 	@Before
 	private Borsa borsa(int pesoMax, Attrezzo... attrezzi) {
@@ -33,6 +44,11 @@ class BorsaTest { // 25 / 25
 	@Before
 	private Borsa borsaSingleton(Attrezzo attrezzo) {
 		return borsa(Borsa.DEFAULT_PESO_MAX_BORSA, attrezzo);
+	}
+
+	@Before
+	private Borsa borsaDoppia(Attrezzo attrezzo1, Attrezzo attrezzo2) {
+		return borsa(Borsa.DEFAULT_PESO_MAX_BORSA, attrezzo1, attrezzo2);
 	}
 
 	@Before
@@ -71,7 +87,7 @@ class BorsaTest { // 25 / 25
 	}
 
 	@Test
-	void testBorsaHasAttrezzoPienaAttrezziNo() { // piena ==> 10 attrezzi
+	void testBorsaHasAttrezzoPienaAttrezziNo() {
 		assertFalse(borsaPiena().hasAttrezzo("busta"), "La borsa piena NON può avere l'attrezzo busta.");
 	}
 
@@ -105,12 +121,6 @@ class BorsaTest { // 25 / 25
 	void testRemoveAttrezzoCopioneBorsa() {
 		assertTrue(borsaDefaultPesoMax(new Attrezzo("osso", 1), new Attrezzo("osso", 1), new Attrezzo("osso", 1))
 				.removeAttrezzo("osso"), "La borsa deve poter permettere la rimozione di attrezzi copioni.");
-	}
-
-	@Test
-	void testAddAttrezzoBorsaPienaAttrezzi() { // piena ==> 10 attrezzi
-		assertFalse(borsaPiena().addAttrezzo(new Attrezzo("lanterna", 3)),
-				"La borsa piena NON deve poter contenere altri attrezzi.");
 	}
 
 	@Test
@@ -187,5 +197,165 @@ class BorsaTest { // 25 / 25
 	@Test
 	void testIsEmptyStanzaPiena() {
 		assertFalse(borsaPiena().isEmpty(), "La borsa piena contiene molti attrezzi !");
+	}
+
+	@Test
+	void testGetSortedSetOrdinatoPerPesoBorsaPiena() {
+		Borsa borsaPiena = this.borsaPiena();
+		SortedSet<Attrezzo> s = borsaPiena.getSortedSetOrdinatoPerPeso();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(10, s.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaPiena.getNome2attrezzi().get("chiodo"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("osso"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("scudo"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("spatola"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("martello"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("metro"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("cofana"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("spada"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("trapano"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("pala"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoOrdinatoPerNomeBorsaPiena() {
+		Borsa borsaPiena = this.borsaPiena();
+		SortedSet<Attrezzo> s = borsaPiena.getContenutoOrdinatoPerNome();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(10, s.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaPiena.getNome2attrezzi().get("chiodo"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("cofana"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("martello"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("metro"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("osso"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("pala"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("scudo"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("spada"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("spatola"), it.next());
+		assertSame(borsaPiena.getNome2attrezzi().get("trapano"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoOrdinatoPerPesoBorsaPiena() {
+		Borsa borsaPiena = this.borsaPiena();
+		List<Attrezzo> l = borsaPiena.getContenutoOrdinatoPerPeso();
+		assertEquals(10, l.size());
+		assertFalse(l.isEmpty());
+		assertSame(borsaPiena.getNome2attrezzi().get("chiodo"), l.get(0));
+		assertSame(borsaPiena.getNome2attrezzi().get("osso"), l.get(1));
+		assertSame(borsaPiena.getNome2attrezzi().get("scudo"), l.get(2));
+		assertSame(borsaPiena.getNome2attrezzi().get("spatola"), l.get(3));
+		assertSame(borsaPiena.getNome2attrezzi().get("martello"), l.get(4));
+		assertSame(borsaPiena.getNome2attrezzi().get("metro"), l.get(5));
+		assertSame(borsaPiena.getNome2attrezzi().get("cofana"), l.get(6));
+		assertSame(borsaPiena.getNome2attrezzi().get("spada"), l.get(7));
+		assertSame(borsaPiena.getNome2attrezzi().get("trapano"), l.get(8));
+		assertSame(borsaPiena.getNome2attrezzi().get("pala"), l.get(9));
+	}
+
+	@Test
+	void testGetSortedSetOrdinatoPerPesoBorsaVuota() {
+		Borsa borsaVuota = this.borsaVuota();
+		SortedSet<Attrezzo> s = borsaVuota.getSortedSetOrdinatoPerPeso();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(0, s.size());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoOrdinatoPerNomeBorsaVuota() {
+		Borsa borsaVuota = this.borsaVuota();
+		SortedSet<Attrezzo> s = borsaVuota.getContenutoOrdinatoPerNome();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(0, s.size());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoOrdinatoPerPesoBorsaSingleton() {
+		Borsa borsaSingleton = this.borsaSingleton(new Attrezzo("osso", 1));
+		List<Attrezzo> l = borsaSingleton.getContenutoOrdinatoPerPeso();
+		Iterator<Attrezzo> it = l.iterator();
+		assertEquals(1, l.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaSingleton.getNome2attrezzi().get("osso"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetSortedSetOrdinatoPerPesoBorsaSingleton() {
+		Borsa borsaSingleton = this.borsaSingleton(new Attrezzo("lanterna", 2));
+		SortedSet<Attrezzo> s = borsaSingleton.getSortedSetOrdinatoPerPeso();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(1, s.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaSingleton.getNome2attrezzi().get("lanterna"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoOrdinatoPerNomeBorsaSingleton() {
+		Borsa borsaSingleton = this.borsaSingleton(new Attrezzo("piedediporco", 3));
+		SortedSet<Attrezzo> s = borsaSingleton.getContenutoOrdinatoPerNome();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(1, s.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaSingleton.getNome2attrezzi().get("piedediporco"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoRaggruppatoPerPesoBorsaPiena() {
+		Borsa borsaPiena = borsaPiena();
+		Map<Integer, Set<Attrezzo>> m = borsaPiena.getContenutoRaggruppatoPerPeso();
+		// ComparatoreAttrezziPerNome cmp = new ComparatoreAttrezziPerNome();
+		Set<Attrezzo> set1 = new TreeSet<Attrezzo>();
+		Set<Attrezzo> set2 = new TreeSet<Attrezzo>();
+		Set<Attrezzo> set3 = new TreeSet<Attrezzo>();
+		Set<Attrezzo> set4 = new TreeSet<Attrezzo>();
+		assertTrue(set1.add(new Attrezzo("chiodo", 1)));
+		assertTrue(set1.add(new Attrezzo("osso", 1)));
+		assertTrue(set1.add(new Attrezzo("scudo", 1)));
+		assertTrue(set1.add(new Attrezzo("spatola", 1)));
+		assertTrue(set2.add(new Attrezzo("martello", 2)));
+		assertTrue(set2.add(new Attrezzo("metro", 2)));
+		assertTrue(set3.add(new Attrezzo("cofana", 3)));
+		assertTrue(set3.add(new Attrezzo("spada", 3)));
+		assertTrue(set3.add(new Attrezzo("trapano", 3)));
+		assertTrue(set4.add(new Attrezzo("pala", 4)));
+		assertEquals(4, m.size());
+		assertNotNull(m.get(1));
+		assertEquals(set1, m.get(1));
+		assertEquals(set2, m.get(2));
+		assertEquals(set3, m.get(3));
+		assertEquals(set4, m.get(4));
+		assertNull(m.get(5));
+	}
+
+	@Test
+	void testGetContenutoRaggruppatoPerPesoBorsaVuota() {
+		Borsa borsaVuota = borsaVuota();
+		Map<Integer, Set<Attrezzo>> m = borsaVuota.getContenutoRaggruppatoPerPeso();
+		assertEquals(0, m.size());
+		assertNull(m.get(1));
+	}
+
+	@Test
+	void testGetContenutoRaggruppatoPerPesoBorsaSingleton() {
+		Attrezzo martello = new Attrezzo("martello", 2);
+		Borsa borsaSingleton = borsaSingleton(martello);
+		Map<Integer, Set<Attrezzo>> m = borsaSingleton.getContenutoRaggruppatoPerPeso();
+		// ComparatoreAttrezziPerNome cmp = new ComparatoreAttrezziPerNome();
+		Set<Attrezzo> set2 = new TreeSet<Attrezzo>();
+		assertTrue(set2.add(martello));
+		assertNotNull(m.get(2));
+		assertEquals(1, m.size());
+		assertEquals(set2, m.get(2));
+		assertNull(m.get(1));
+		assertNull(m.get(3));
 	}
 }

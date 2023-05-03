@@ -16,7 +16,7 @@ import it.uniroma3.diadia.giocatore.Borsa;
  * @version 1
  * 
  */
-public class Attrezzo { // extends Object
+public class Attrezzo implements Comparable<Attrezzo> { // extends Object
 
 	private String nome; // nome che identifica l'attrezzo.
 	private int peso; // il peso dell'attrezzo.
@@ -88,7 +88,7 @@ public class Attrezzo { // extends Object
 	 */
 	@Override // overrides toString() di java.lang.Object
 	public String toString() {
-		return this.getNome() + " di " + this.getPeso() + " kg.";
+		return this.getNome() + ":" + this.getPeso();
 	}
 
 	/**
@@ -100,8 +100,23 @@ public class Attrezzo { // extends Object
 	 */
 	@Override // overrides equals(Object o) di java.lang.Object
 	public boolean equals(Object o) {
+		if (this == null || o == null || this.getClass() != o.getClass())
+			return false;
 		Attrezzo a = (Attrezzo) (o); // down-casting
 		return this.getNome().equals(a.getNome()) && this.getPeso() == a.getPeso();
+	}
+
+	@Override
+	public int hashCode() {
+		Integer pesoInteger = this.getPeso();
+		return this.getClass().hashCode() + this.getNome().hashCode() + pesoInteger.hashCode();
+	}
+
+	@Override
+	public int compareTo(Attrezzo attrezzo) {
+		if (attrezzo.getNome().equals(this.getNome()))
+			return this.getPeso() - attrezzo.getPeso();
+		return attrezzo.getNome().compareTo(this.getNome());
 	}
 
 	/**

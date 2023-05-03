@@ -1,60 +1,68 @@
 package it.uniroma3.diadia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IOSimulator implements IO {
 
-	private String[] righeLette;
-	private String[] messaggiProdotti;
-	private String[] righeMostrate;
+	private List<String> righeLette;
 	private int indiceRigheLette;
+	private List<String> messaggiProdotti;
 	private int indiceMessaggiProdotti;
+	private List<String> messaggiMostrati;
 	private int indiceMessaggiMostrati;
 
-	public IOSimulator(String[] righeDaLeggere) {
+	public IOSimulator(List<String> righeDaLeggere) {
 		this.righeLette = righeDaLeggere;
 		this.indiceRigheLette = 0;
+		this.messaggiMostrati = new ArrayList<String>();
 		this.indiceMessaggiMostrati = 0;
-		this.messaggiProdotti = new String[42 * 23];
+		this.messaggiProdotti = new ArrayList<String>();
+		this.indiceMessaggiProdotti = 0;
+		this.messaggiMostrati = new ArrayList<String>();
 	}
 
-	public String[] getRigheLette() {
-		return this.righeLette;
-	}
-
-	public void setRigheLette(String[] righeLette) {
-		this.righeLette = righeLette;
-	}
-
-	public String[] getMessaggiProdotti() {
+	public List<String> getMessaggiProdotti() {
 		return this.messaggiProdotti;
 	}
 
-	public void setMessaggiProdotti(String[] messaggiProdotti) {
+	public void setMessaggiProdotti(List<String> messaggiProdotti) {
 		this.messaggiProdotti = messaggiProdotti;
 	}
 
-	public String[] getRigheMostrate() {
-		return this.righeMostrate;
+	public List<String> getMessaggiMostrati() {
+		return this.messaggiMostrati;
 	}
 
-	public void setRigheMostrate(String[] righeMostrate) {
-		this.righeMostrate = righeMostrate;
+	public void setMessaggiMostrati(List<String> messaggiMostrati) {
+		this.messaggiMostrati = messaggiMostrati;
+	}
+
+	public List<String> getRigheLette() {
+		return this.righeLette;
+	}
+
+	public void setRigheLette(List<String> righeLette) {
+		this.righeLette = righeLette;
 	}
 
 	@Override
 	public String leggiRiga() {
-		String riga = this.righeLette[this.indiceRigheLette];
+		if (this.righeLette == null)
+			return null;
+		String riga = this.righeLette.get(indiceRigheLette);
 		this.indiceRigheLette++;
 		return riga;
 	}
 
 	@Override
 	public void mostraMessaggio(String messaggio) {
-		this.messaggiProdotti[this.indiceMessaggiProdotti] = messaggio;
+		this.messaggiProdotti.add(this.indiceMessaggiProdotti, messaggio);
 		this.indiceMessaggiProdotti++;
 	}
 
 	public String nextMessaggio() {
-		String next = this.messaggiProdotti[this.indiceMessaggiMostrati];
+		String next = this.messaggiProdotti.get(indiceMessaggiMostrati);
 		this.indiceMessaggiMostrati++;
 		return next;
 	}

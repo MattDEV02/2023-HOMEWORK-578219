@@ -64,8 +64,8 @@ class GiocatoreTest { // 12 / 12
 	}
 
 	@Test
-	void testGiocatoreBorsaPartitaIniziale() { // nel secondo parametro istanzio una borsa vuota...
-		assertEquals("La borsa iniziale del giocatore partota NON iniziale deve essere vuota.", new Borsa(),
+	void testGiocatoreBorsaPartitaIniziale() {
+		assertEquals("La borsa iniziale del giocatore partita NON iniziale deve essere vuota.", new Borsa(),
 				giocatorePartitaAppenaIniziata().getBorsa());
 	}
 

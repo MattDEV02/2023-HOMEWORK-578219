@@ -13,7 +13,7 @@ public class ComandoVai implements Comando {
 
 	@Override
 	public void esegui(Partita partita) {
-		Stanza stanzaCorrente = partita.getStanzaCorrente();
+		Stanza stanzaCorrente = partita.getLabirinto().getStanzaIniziale();
 		if (this.direzione == null || this.direzione.equals("")) {
 			this.io.mostraMessaggio("direzione " + this.direzione + "NON valida.");
 			return;
@@ -23,7 +23,7 @@ public class ComandoVai implements Comando {
 			this.io.mostraMessaggio("direzione inesistente.");
 			return;
 		}
-		partita.setStanzaCorrente(prossimaStanza);
+		partita.getLabirinto().setStanzaCorrente(prossimaStanza);
 		Giocatore giocatore = partita.getGiocatore();
 		giocatore.setCfu(giocatore.getCfu() - 1);
 	}

@@ -16,21 +16,24 @@ public class FabbricaDiComandiFisarmonica implements FabbricaDiComandi {
 	public Comando costruisciComando(String istruzione) {
 		@SuppressWarnings("resource")
 		Scanner scannerDiParole = new Scanner(istruzione);
-		String nomeComando = "";
-		String parametro = "";
+		String nomeComando = null;
+		String parametro = null;
 		Comando comando = null;
 		if (scannerDiParole.hasNext())
 			nomeComando = scannerDiParole.next();// prima parola: nome del comando
 		if (scannerDiParole.hasNext())
-			parametro = scannerDiParole.next(); // seconda parola: eventuale param.
-		// seconda parola: eventuale parametro
+			parametro = scannerDiParole.next(); // seconda parola: parametro del comando.
+		if (scannerDiParole.hasNext()) {
+			comando = new ComandoNonValido(); // terza parola: non valida.
+			parametro = null;
+		}
 		if (nomeComando == null)
 			comando = new ComandoNonValido();
-		else if (nomeComando.equals("vai"))
+		else if (nomeComando.equals("vai") && parametro != null)
 			comando = new ComandoVai();
-		else if (nomeComando.equals("prendi"))
+		else if (nomeComando.equals("prendi") && parametro != null)
 			comando = new ComandoPrendi();
-		else if (nomeComando.equals("posa"))
+		else if (nomeComando.equals("posa") && parametro != null)
 			comando = new ComandoPosa();
 		else if (nomeComando.equals("aiuto"))
 			comando = new ComandoAiuto();
@@ -42,7 +45,7 @@ public class FabbricaDiComandiFisarmonica implements FabbricaDiComandi {
 			comando = new ComandoNonValido();
 		comando.setParametro(parametro);
 		comando.setIo(this.io);
-		return comando;
 		// scannerDiParole.close();
+		return comando;
 	}
 }

@@ -6,33 +6,44 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 
 class PartitaTest { // 15 / 15
 
+	Labirinto labirinto;
+
+	@BeforeEach
+	public void setUp() throws Exception {
+		this.labirinto = new LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("martello", 3)
+				.addStanzaVincente("Biblioteca").addAdiacenza("Atrio", "Biblioteca", "nord").getLabirinto();
+	}
+
 	@Before
 	private Partita partitaAppenaIniziata() {
-		return new Partita(); // condizioni iniziali partita appena iniziata definite nel costruttore della
-								// classe Partita.
+		return new Partita(this.labirinto); // condizioni iniziali partita appena iniziata definite nel costruttore
+											// della classe Partita.
 	}
 
 	@Before
 	private Partita partitaVinta() {
-		Partita partitaVintaOutput = new Partita();
+		Partita partitaVintaOutput = new Partita(this.labirinto);
 		partitaVintaOutput.getGiocatore().setCfu(15); // ad esempio...
 		partitaVintaOutput.setFinita();
-		partitaVintaOutput.setStanzaCorrente(partitaVintaOutput.getStanzaVincente());
+		partitaVintaOutput.getLabirinto().setStanzaCorrente(partitaVintaOutput.getLabirinto().getStanzaVincente());
 		return partitaVintaOutput;
 	}
 
 	@Before
 	private Partita partitaPersa() {
-		Partita partitaPersaOutput = new Partita();
+		Partita partitaPersaOutput = new Partita(this.labirinto);
 		partitaPersaOutput.setFinita();
 		partitaPersaOutput.getGiocatore().setCfu(0); // 0 cfu ==> partita persa.
-		partitaPersaOutput.setStanzaCorrente(new Stanza("Aula N10")); // per esempio...
+		partitaPersaOutput.getLabirinto().setStanzaCorrente(new Stanza("Aula N10")); // per esempio...
 		return partitaPersaOutput;
 	}
 
@@ -84,36 +95,37 @@ class PartitaTest { // 15 / 15
 	@Test
 	void testPartitaAppenaIniziataStanzaVincente() {
 		assertNotEquals("Una partita appena iniziata deve avere come stanza corrente atrio e NON biblioteca.",
-				partitaAppenaIniziata().getStanzaCorrente(), new Stanza("Biblioteca"));
+				partitaAppenaIniziata().getLabirinto().getStanzaIniziale(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaCorrente() {
 		assertEquals("Una partita appena iniziata deve avere come stanza corrente atrio e non altre stanze.",
-				partitaAppenaIniziata().getStanzaCorrente(), new Stanza("Atrio"));
+				partitaAppenaIniziata().getLabirinto().getStanzaIniziale(), new Stanza("Atrio"));
 	}
 
 	@Test
 	void testPartitaVintaStanzaVincente() {
 		assertEquals("Una partita vinta ha come stanza vincente la biblioteca e NON altre stanze.",
-				partitaVinta().getStanzaCorrente(), new Stanza("Biblioteca"));
+				partitaVinta().getLabirinto().getStanzaIniziale(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaPersaStanzaVincente() {
 		assertNotEquals("Una partita persa NON può avere come stanza corrente la biblioteca.",
-				partitaPersa().getStanzaCorrente(), new Stanza("Biblioteca"));
+				partitaPersa().getLabirinto().getStanzaIniziale(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaPersaStanzaCorrente() {
 		assertEquals("Questa particolare partita persa deve avere come stanza corrente Aula N10.",
-				partitaPersa().getStanzaCorrente(), new Stanza("Aula N10"));
+				partitaPersa().getLabirinto().getStanzaIniziale(), new Stanza("Aula N10"));
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaVincente2() {
 		assertEquals("Questa particolare partita persa deve avere come stanza corrente Aula N10.",
-				partitaAppenaIniziata().getStanzaVincente(), partitaVinta().getStanzaCorrente());
+				partitaAppenaIniziata().getLabirinto().getStanzaVincente(),
+				partitaVinta().getLabirinto().getStanzaIniziale());
 	}
 }

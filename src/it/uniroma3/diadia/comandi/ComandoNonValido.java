@@ -11,7 +11,12 @@ public class ComandoNonValido implements Comando {
 	@Override
 	public void esegui(Partita partita) {
 		this.io.mostraMessaggio(
-				"Comando vuoto / nullo / NON valido / sconosciuto, riprova con un altro comando ricordando che i comandi hanno una o dueparole.");
+				"Comando vuoto / nullo / NON valido / sconosciuto, riprova con un altro comando ricordando che i comandi hanno una o due parole.");
+	}
+
+	@Override
+	public String getParametro() {
+		return null;
 	}
 
 	@Override
@@ -21,11 +26,6 @@ public class ComandoNonValido implements Comando {
 	@Override
 	public String getNome() {
 		return ComandoNonValido.NOME;
-	}
-
-	@Override
-	public String getParametro() {
-		return "";
 	}
 
 	@Override
