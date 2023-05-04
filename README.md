@@ -9,11 +9,12 @@ Il progetto è stato svolto in singolo.
 
 ## Struttura del progetto
 
-- `src/`: contiene il codice sorgente principale
-- `test/`: contiene i test cases che sfruttano JUnit 5
-- `EseguiTest3Final.bat`: script batch che permette di confermare che packages e classi abbiano denominazione corretta
-- `diadia.jar`: esportazione in formato JAR del progetto
-- `Test3Final.jar`: test fornito dal docente eseguibile tramite lo script citato sopra
+- `src/`: contiene il codice sorgente principale.
+- `test/`: contiene i test cases che sfruttano JUnit 5.
+- `docs/`: contiene la documentazione del progetto.
+- `eseguiTest3Final.bat`: script batch che permette di confermare che packages e classi abbiano denominazione corretta.
+- `diadia.jar`: esportazione in formato JAR del progetto.
+- `Test3Final.jar`: test fornito dal docente eseguibile tramite lo script citato sopra.
 
 ## Autore
 
