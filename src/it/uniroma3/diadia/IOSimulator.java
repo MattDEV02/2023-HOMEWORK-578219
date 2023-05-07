@@ -19,7 +19,6 @@ public class IOSimulator implements IO {
 		this.indiceMessaggiMostrati = 0;
 		this.messaggiProdotti = new ArrayList<String>();
 		this.indiceMessaggiProdotti = 0;
-		this.messaggiMostrati = new ArrayList<String>();
 	}
 
 	public List<String> getMessaggiProdotti() {
