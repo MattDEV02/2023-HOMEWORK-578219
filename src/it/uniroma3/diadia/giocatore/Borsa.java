@@ -76,18 +76,6 @@ public class Borsa {
 		}
 	}
 
-	/**
-	 * 
-	 * @return restituisce l'insieme di attrezzi attualmente contenuti nella borsa.
-	 */
-	public Collection<Attrezzo> getAttrezzi() {
-		return this.nome2attrezzi.values();
-	}
-
-	public Set<String> getNomiAttrezzi() {
-		return this.nome2attrezzi.keySet();
-	}
-
 	public Map<String, Attrezzo> getNome2attrezzi() {
 		return this.nome2attrezzi;
 	}
@@ -118,48 +106,6 @@ public class Borsa {
 	}
 
 	/**
-	 * 
-	 * @return restituisce il nuovo peso della borsa in kg.
-	 */
-	public int getNuovoPeso(Attrezzo attrezzoDaAggiungere) {
-		return this.getPeso() + attrezzoDaAggiungere.getPeso();
-	}
-
-	public int getPesoAttuale() {
-		return this.pesoAttuale;
-	}
-
-	public void setPesoAttuale(int pesoAttuale) {
-		this.pesoAttuale = pesoAttuale;
-	}
-
-	/**
-	 * Controlla se il nome dell'attrezzo nel parametro corrisponde ad un attrezzo
-	 * nella borsa e lo restituisce.
-	 * 
-	 * @param nomeAttrezzo id dell'attrezzo.
-	 * @return attrezzo cercato in formato stringa, null altrimenti.
-	 * 
-	 */
-	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		if (nomeAttrezzo == null || nomeAttrezzo.equals(""))
-			return null;
-		return this.nome2attrezzi.get(nomeAttrezzo);
-	}
-
-	/**
-	 * Calcola il peso totale (di tutti gli attrezzi) della borsa.
-	 * 
-	 * @return peso totale (di tutti gli attrezzi) della borsa.
-	 */
-	public int getPeso() {
-		int peso = 0;
-		for (Attrezzo attrezzo : this.nome2attrezzi.values())
-			peso += attrezzo.getPeso();
-		return peso;
-	}
-
-	/**
 	 * Aggiorna il peso massimo (in kg) che la borsa può sostenere.
 	 * 
 	 * @param pesoMax nuovo peso massimo della borsa in kg.
@@ -167,6 +113,10 @@ public class Borsa {
 	public void setPesoMax(int pesoMax) {
 		if (Borsa.valid(pesoMax) && pesoMax != this.pesoMax)
 			this.pesoMax = pesoMax;
+	}
+
+	public static int getDefaultPesoMaxBorsa() {
+		return Borsa.DEFAULT_PESO_MAX_BORSA;
 	}
 
 	/**
@@ -204,6 +154,60 @@ public class Borsa {
 		Borsa b = (Borsa) (o); // down-casting.
 		return this.stessiAttrezzi(b) && this.getNumAttrezzi() == b.getNumAttrezzi()
 				&& this.getPesoMax() == b.getPesoMax();
+	}
+
+	/**
+	 * 
+	 * @return restituisce il nuovo peso della borsa in kg.
+	 */
+	public int getNuovoPeso(Attrezzo attrezzoDaAggiungere) {
+		return this.getPeso() + attrezzoDaAggiungere.getPeso();
+	}
+
+	public int getPesoAttuale() {
+		return this.pesoAttuale;
+	}
+
+	public void setPesoAttuale(int pesoAttuale) {
+		this.pesoAttuale = pesoAttuale;
+	}
+
+	/**
+	 * 
+	 * @return restituisce l'insieme di attrezzi attualmente contenuti nella borsa.
+	 */
+	public Collection<Attrezzo> getAttrezzi() {
+		return this.nome2attrezzi.values();
+	}
+
+	public Set<String> getNomiAttrezzi() {
+		return this.nome2attrezzi.keySet();
+	}
+
+	/**
+	 * Controlla se il nome dell'attrezzo nel parametro corrisponde ad un attrezzo
+	 * nella borsa e lo restituisce.
+	 * 
+	 * @param nomeAttrezzo id dell'attrezzo.
+	 * @return attrezzo cercato in formato stringa, null altrimenti.
+	 * 
+	 */
+	public Attrezzo getAttrezzo(String nomeAttrezzo) {
+		if (nomeAttrezzo == null || nomeAttrezzo.equals(""))
+			return null;
+		return this.nome2attrezzi.get(nomeAttrezzo);
+	}
+
+	/**
+	 * Calcola il peso totale (di tutti gli attrezzi) della borsa.
+	 * 
+	 * @return peso totale (di tutti gli attrezzi) della borsa.
+	 */
+	public int getPeso() {
+		int peso = 0;
+		for (Attrezzo attrezzo : this.nome2attrezzi.values())
+			peso += attrezzo.getPeso();
+		return peso;
 	}
 
 	/**

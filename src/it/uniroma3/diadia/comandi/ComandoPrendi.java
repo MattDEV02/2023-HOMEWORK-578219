@@ -4,6 +4,7 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.giocatore.Borsa;
 
 public class ComandoPrendi implements Comando {
 
@@ -13,11 +14,14 @@ public class ComandoPrendi implements Comando {
 
 	@Override
 	public void esegui(Partita partita) {
-		Stanza stanzaCorrente = partita.getLabirinto().getStanzaIniziale();
-		if (stanzaCorrente.hasAttrezzo(nomeAttrezzo)) {
-			Attrezzo attrezzoDaPrendere = stanzaCorrente.getAttrezzo(this.nomeAttrezzo);
-			if (stanzaCorrente.removeAttrezzo(nomeAttrezzo)) {
-				if (partita.getGiocatore().getBorsa().addAttrezzo(attrezzoDaPrendere)) {
+		Stanza stanzaCorrente = partita.getLabirinto().getStanzaCorrente();
+		if (stanzaCorrente.hasAttrezzo(this.getParametro())) {
+			Attrezzo attrezzoDaPrendere = stanzaCorrente.getAttrezzo(this.getParametro());
+			Borsa borsa = partita.getGiocatore().getBorsa();
+			if (borsa.getNuovoPeso(attrezzoDaPrendere) <= borsa.getPesoMax()
+					&& stanzaCorrente.removeAttrezzo(this.getParametro())) { // TODO se l'attrezzo è troppo
+				// pesante...
+				if (borsa.addAttrezzo(attrezzoDaPrendere)) {
 					this.io.mostraMessaggio(
 							"L'attrezzo " + attrezzoDaPrendere.getNome() + " e' stato preso dalla stanza "
 									+ stanzaCorrente.getNome() + " e messo nello zaino con successo.");

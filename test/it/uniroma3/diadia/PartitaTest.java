@@ -95,37 +95,37 @@ class PartitaTest { // 15 / 15
 	@Test
 	void testPartitaAppenaIniziataStanzaVincente() {
 		assertNotEquals("Una partita appena iniziata deve avere come stanza corrente atrio e NON biblioteca.",
-				partitaAppenaIniziata().getLabirinto().getStanzaIniziale(), new Stanza("Biblioteca"));
+				partitaAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaCorrente() {
 		assertEquals("Una partita appena iniziata deve avere come stanza corrente atrio e non altre stanze.",
-				partitaAppenaIniziata().getLabirinto().getStanzaIniziale(), new Stanza("Atrio"));
+				partitaAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Atrio"));
 	}
 
 	@Test
 	void testPartitaVintaStanzaVincente() {
 		assertEquals("Una partita vinta ha come stanza vincente la biblioteca e NON altre stanze.",
-				partitaVinta().getLabirinto().getStanzaIniziale(), new Stanza("Biblioteca"));
+				partitaVinta().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaPersaStanzaVincente() {
 		assertNotEquals("Una partita persa NON può avere come stanza corrente la biblioteca.",
-				partitaPersa().getLabirinto().getStanzaIniziale(), new Stanza("Biblioteca"));
+				partitaPersa().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaPersaStanzaCorrente() {
 		assertEquals("Questa particolare partita persa deve avere come stanza corrente Aula N10.",
-				partitaPersa().getLabirinto().getStanzaIniziale(), new Stanza("Aula N10"));
+				partitaPersa().getLabirinto().getStanzaCorrente(), new Stanza("Aula N10"));
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaVincente2() {
 		assertEquals("Questa particolare partita persa deve avere come stanza corrente Aula N10.",
 				partitaAppenaIniziata().getLabirinto().getStanzaVincente(),
-				partitaVinta().getLabirinto().getStanzaIniziale());
+				partitaVinta().getLabirinto().getStanzaCorrente());
 	}
 }

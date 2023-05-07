@@ -71,4 +71,12 @@ public class IOSimulator implements IO {
 		return this.indiceMessaggiMostrati < this.indiceMessaggiProdotti;
 	}
 
+	@Override
+	public String toString() {
+		return "IOSimulator [righeLette=" + this.getRigheLette() + ", indiceRigheLette=" + this.indiceRigheLette
+				+ ", messaggiProdotti=" + this.getMessaggiProdotti() + ", indiceMessaggiProdotti="
+				+ this.indiceMessaggiProdotti + ", messaggiMostrati=" + this.getMessaggiMostrati()
+				+ ", indiceMessaggiMostrati=" + this.indiceMessaggiMostrati + "]";
+	}
+
 }

@@ -11,6 +11,22 @@ public class StanzaBloccata extends Stanza {
 		this.nomeAttrezzoSbloccante = nomeAttrezzoSbloccante;
 	}
 
+	public String getDirezioneBloccata() {
+		return this.direzioneBloccata;
+	}
+
+	public void setDirezioneBloccata(String direzioneBloccata) {
+		this.direzioneBloccata = direzioneBloccata;
+	}
+
+	public String getNomeAttrezzoSbloccante() {
+		return nomeAttrezzoSbloccante;
+	}
+
+	public void setNomeAttrezzoSbloccante(String nomeAttrezzoSbloccante) {
+		this.nomeAttrezzoSbloccante = nomeAttrezzoSbloccante;
+	}
+
 	@Override
 	public Stanza getStanzaAdiacente(String direzione) {
 		if (direzione.equals(this.direzioneBloccata) && !this.hasAttrezzo(this.nomeAttrezzoSbloccante))

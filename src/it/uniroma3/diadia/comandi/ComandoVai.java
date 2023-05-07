@@ -13,9 +13,9 @@ public class ComandoVai implements Comando {
 
 	@Override
 	public void esegui(Partita partita) {
-		Stanza stanzaCorrente = partita.getLabirinto().getStanzaIniziale();
+		Stanza stanzaCorrente = partita.getLabirinto().getStanzaCorrente();
 		if (this.direzione == null || this.direzione.equals("")) {
-			this.io.mostraMessaggio("direzione " + this.direzione + "NON valida.");
+			this.io.mostraMessaggio("direzione " + this.direzione + " NON valida.");
 			return;
 		}
 		Stanza prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.direzione);

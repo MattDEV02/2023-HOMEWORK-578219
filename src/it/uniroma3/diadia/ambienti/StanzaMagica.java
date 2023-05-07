@@ -6,8 +6,27 @@ public class StanzaMagica extends Stanza {
 
 	private int contatoreAttrezziPosati;
 	private int sogliaMagica;
-
 	private static final int SOGLIA_MAGICA_DEFAULT = 1;
+
+	public int getContatoreAttrezziPosati() {
+		return this.contatoreAttrezziPosati;
+	}
+
+	public void setContatoreAttrezziPosati(int contatoreAttrezziPosati) {
+		this.contatoreAttrezziPosati = contatoreAttrezziPosati;
+	}
+
+	public int getSogliaMagica() {
+		return this.sogliaMagica;
+	}
+
+	public void setSogliaMagica(int sogliaMagica) {
+		this.sogliaMagica = sogliaMagica;
+	}
+
+	public static int getSogliaMagicaDefault() {
+		return StanzaMagica.SOGLIA_MAGICA_DEFAULT;
+	}
 
 	public StanzaMagica(String nome, int soglia) {
 		super(nome);

@@ -14,10 +14,9 @@ public class ComandoPosa implements Comando {
 
 	@Override
 	public void esegui(Partita partita) {
-
 		Borsa borsa = partita.getGiocatore().getBorsa();
 		if (borsa.hasAttrezzo(nomeAttrezzo)) {
-			Stanza stanzaCorrente = partita.getLabirinto().getStanzaIniziale();
+			Stanza stanzaCorrente = partita.getLabirinto().getStanzaCorrente();
 			Attrezzo attrezoDaPosare = borsa.getAttrezzo(nomeAttrezzo);
 			if (borsa.removeAttrezzo(nomeAttrezzo)) {
 				if (stanzaCorrente.addAttrezzo(attrezoDaPosare)) {

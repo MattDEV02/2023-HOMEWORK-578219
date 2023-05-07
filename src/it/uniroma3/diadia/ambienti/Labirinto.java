@@ -20,23 +20,23 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class Labirinto {
 
-	private Stanza stanzaIniziale;
+	private Stanza stanzaCorrente; // inizialmente stanza iniziale
 	private Stanza stanzaVincente;
 
 	/**
 	 * 
 	 * @return la stanza d'ingresso (atrio).
 	 */
-	public Stanza getStanzaIniziale() {
-		return this.stanzaIniziale;
+	public Stanza getStanzaCorrente() {
+		return this.stanzaCorrente;
 	}
 
 	/**
 	 * 
 	 * @param la stanza nuova d'ingresso.
 	 */
-	public void setStanzaCorrente(Stanza stanzaIniziale) {
-		this.stanzaIniziale = stanzaIniziale;
+	public void setStanzaCorrente(Stanza stanzaCorrente) {
+		this.stanzaCorrente = stanzaCorrente;
 	}
 
 	/**

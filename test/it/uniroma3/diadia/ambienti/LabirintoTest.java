@@ -48,13 +48,13 @@ class LabirintoTest {
 	@Test
 	void testLabirintoGetStanzaIngresso() { // testo l'efficacia del metodo getStanzaCorrente() della classe Labirinto
 		assertEquals("La stanza d'ingresso deve essere l'atrio.", new Stanza("Atrio"),
-				this.labirinto.getStanzaIniziale());
+				this.labirinto.getStanzaCorrente());
 	}
 
 	@Test
 	void testLabirintoGetStanzaIngressoNo() { // testo l'efficacia del metodo getStanzaCorrente() della classe Labirinto
 		assertNotEquals("La stanza d'ingresso deve essere l'atrio e non  l'Aula N10.", new Stanza("Aula N10"),
-				this.labirinto.getStanzaIniziale());
+				this.labirinto.getStanzaCorrente());
 	}
 
 	@Test
@@ -77,21 +77,21 @@ class LabirintoTest {
 	void testLabirintoGetStanzaCorrenteTramiteStanzeAdiacenti() { // testo l'efficacia del metodo getStanzaCorrente()
 																	// della classe Labirinto
 		assertEquals(new Stanza("Atrio"),
-				this.labirinto.getStanzaIniziale().getStanzaAdiacente("sud").getStanzaAdiacente("nord"));
+				this.labirinto.getStanzaCorrente().getStanzaAdiacente("sud").getStanzaAdiacente("nord"));
 	}
 
 	@Test
 	void testLabirintoGetStanzaCorrenteTramiteStanzeAdiacentiNo() { // testo l'efficacia del metodo getStanzaCorrente()
 																	// della classe Labirinto
 		assertNotEquals("La stanza corrente acceduta tramite sud-nord-sud-est NON può deve essere la biblioteca.",
-				new Stanza("Atrio"), this.labirinto.getStanzaIniziale().getStanzaAdiacente("sud")
+				new Stanza("Atrio"), this.labirinto.getStanzaCorrente().getStanzaAdiacente("sud")
 						.getStanzaAdiacente("nord").getStanzaAdiacente("sud").getStanzaAdiacente("est"));
 	}
 
 	@Test
 	void testLabirintoGetStanzaCorrenteStrumenti() {// testo l'efficacia del metodo getStanzaCorrente()
 													// della classe Labirinto
-		assertTrue(this.labirinto.getStanzaIniziale().hasAttrezzo("osso"),
+		assertTrue(this.labirinto.getStanzaCorrente().hasAttrezzo("osso"),
 				"La stanza atrio deve contenere l'attrezzo osso.");
 	}
 
@@ -103,7 +103,7 @@ class LabirintoTest {
 
 	@Test
 	void testLabirintoGetStanzaCorrenteStrumentiNo() {
-		assertFalse(this.labirinto.getStanzaIniziale().hasAttrezzo("lanterna"),
+		assertFalse(this.labirinto.getStanzaCorrente().hasAttrezzo("lanterna"),
 				"La stanza atrio NON deve contenere l'attrezzo osso.");
 	}
 
@@ -115,7 +115,7 @@ class LabirintoTest {
 
 	@Test
 	void testLabirintoGetStanzaAdiacenteDirezioneInesistente() {
-		assertNull(this.labirinto.getStanzaIniziale().getStanzaAdiacente("direzione_inesistente"),
+		assertNull(this.labirinto.getStanzaCorrente().getStanzaAdiacente("direzione_inesistente"),
 				"La direzione inesistente alla stanza corrente deve tornare null.");
 	}
 

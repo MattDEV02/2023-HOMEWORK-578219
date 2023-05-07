@@ -3,6 +3,7 @@ package it.uniroma3.diadia.ambienti;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
@@ -39,6 +40,10 @@ public class LabirintoBuilder {
 
 	public void setUltimaStanzaAggiunta(Stanza ultimaStanzaAggiunta) {
 		this.ultimaStanzaAggiunta = ultimaStanzaAggiunta;
+	}
+
+	public Set<String> getNomiStanze() {
+		return this.nome2stanza.keySet();
 	}
 
 	public List<Stanza> getListaStanze() {

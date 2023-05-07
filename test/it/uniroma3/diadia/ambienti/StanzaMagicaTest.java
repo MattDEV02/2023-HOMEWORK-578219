@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaMagicaTest { // 27 / 27 N.B. = stesso discorso per la protected...
+class StanzaMagicaTest { // 31 / 31 N.B. = stesso discorso per la protected...
 
 	private StanzaMagica riferimentoStanzaMagicaVuota;
 	private StanzaMagica riferimentoStanzaMagicaSingleton;
@@ -49,6 +49,26 @@ class StanzaMagicaTest { // 27 / 27 N.B. = stesso discorso per la protected...
 		return stanzaMagica(new Attrezzo("osso", 1), new Attrezzo("martello", 2), new Attrezzo("chiodo", 1),
 				new Attrezzo("trapano", 3), new Attrezzo("spatola", 1), new Attrezzo("cofana", 3),
 				new Attrezzo("spada", 3), new Attrezzo("scudo", 1), new Attrezzo("pala", 4), new Attrezzo("metro", 2));
+	}
+
+	@Test
+	void testStanzaMagicaVuotaSize() {
+		assertEquals(0, this.riferimentoStanzaMagicaVuota.getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaMagicaSingletonSize() {
+		assertEquals(1, this.riferimentoStanzaMagicaSingleton.getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaMagicaSingletonNullSize() {
+		assertEquals(0, this.stanzaMagicaSingleton(null).getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaMagicaPienaSize() {
+		assertEquals(10, this.riferimentoStanzaMagicaPiena.getNumAttrezzi());
 	}
 
 	@Test

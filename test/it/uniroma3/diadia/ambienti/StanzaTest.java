@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaTest { // 25 / 25
+class StanzaTest { // 29 / 29
 
 	private Stanza bar;
 	private Stanza mensa;
@@ -50,6 +50,26 @@ class StanzaTest { // 25 / 25
 		return stanza(new Attrezzo("osso", 1), new Attrezzo("martello", 2), new Attrezzo("chiodo", 1),
 				new Attrezzo("trapano", 3), new Attrezzo("spatola", 1), new Attrezzo("cofana", 3),
 				new Attrezzo("spada", 3), new Attrezzo("scudo", 1), new Attrezzo("pala", 4), new Attrezzo("metro", 2));
+	}
+
+	@Test
+	void testStanzaSize() {
+		assertEquals(0, this.stanzaVuota().getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaSingletonSize() {
+		assertEquals(1, this.stanzaSingleton(new Attrezzo("osso", 1)).getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaSingletonNullSize() {
+		assertEquals(0, this.stanzaSingleton(null).getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaPienaSize() {
+		assertEquals(10, this.stanzaPiena().getNumAttrezzi());
 	}
 
 	@Test

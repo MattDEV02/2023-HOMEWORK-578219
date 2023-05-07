@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaBloccataTest { // 29 / 29
+class StanzaBloccataTest { // 33 / 33
 
 	private StanzaBloccata riferimentoStanzaBloccataVuota;
 	private StanzaBloccata riferimentoStanzaBloccataSingleton;
@@ -20,7 +20,6 @@ class StanzaBloccataTest { // 29 / 29
 	@BeforeEach // Denotes that the annotated method should be executed before each @Test
 	public void setUp() throws Exception { // collega le stanze per testare i metodi impostaStanzaAdiacente e
 											// getStanzaAdiacente
-
 		this.riferimentoStanzaBloccataVuota = stanzaBloccataVuota();
 		this.riferimentoStanzaBloccataSingleton = stanzaBloccataSingleton(new Attrezzo("lanterna", 1));
 		this.riferimentoStanzaBloccataPiena = stanzaPiena();
@@ -56,6 +55,26 @@ class StanzaBloccataTest { // 29 / 29
 				new Attrezzo("chiodo", 1), new Attrezzo("trapano", 3), new Attrezzo("spatola", 1),
 				new Attrezzo("cofana", 3), new Attrezzo("spada", 3), new Attrezzo("scudo", 1), new Attrezzo("pala", 4),
 				new Attrezzo("metro", 2));
+	}
+
+	@Test
+	void testStanzaBloccataVuotaSize() {
+		assertEquals(0, this.riferimentoStanzaBloccataVuota.getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaBloccataSingletonSize() {
+		assertEquals(1, this.riferimentoStanzaBloccataSingleton.getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaBloccataSingletonNullSize() {
+		assertEquals(0, this.stanzaBloccataSingleton(null).getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaBloccataPienaSize() {
+		assertEquals(10, this.riferimentoStanzaBloccataPiena.getNumAttrezzi());
 	}
 
 	@Test
@@ -160,20 +179,23 @@ class StanzaBloccataTest { // 29 / 29
 
 	@Test
 	void testRemoveAttrezzoStanzaVuotaAttrezzi() {
-		assertFalse(stanzaBloccata("piedediporco").removeAttrezzo("osso"),
+		assertFalse(this.riferimentoStanzaBloccataVuota.removeAttrezzo("osso"),
 				"NON si può rimuovere un attrezzo dalla stanza vuota.");
+		assertEquals(0, this.riferimentoStanzaBloccataVuota.getNumAttrezzi());
 	}
 
 	@Test
 	void testRemoveAttrezzoStanzaSingletonAttrezzi() {
-		assertTrue(stanzaBloccataSingleton(new Attrezzo("osso", 1)).removeAttrezzo("osso"),
-				"La stanza singleton deve poter permettere la rimozione dell'attrezzo osso.");
+		assertTrue(this.riferimentoStanzaBloccataSingleton.removeAttrezzo("lanterna"),
+				"La stanza singleton deve poter permettere la rimozione dell'attrezzo lanterna.");
+		assertEquals(0, this.riferimentoStanzaBloccataSingleton.getNumAttrezzi());
 	}
 
 	@Test
 	void testRemoveAttrezzoStanzaSingletonAttrezziNo() {
-		assertFalse(stanzaBloccataSingleton(new Attrezzo("lanterna", 3)).removeAttrezzo("osso"),
+		assertFalse(this.riferimentoStanzaBloccataSingleton.removeAttrezzo("osso"),
 				"La stanza singleton NON deve poter permettere la rimozione dell'attrezzo osso.");
+		assertEquals(1, this.riferimentoStanzaBloccataSingleton.getNumAttrezzi());
 	}
 
 	@Test
@@ -186,30 +208,32 @@ class StanzaBloccataTest { // 29 / 29
 
 	@Test
 	void testRemoveAttrezzoStanzaPienaAttrezzi() {
-		assertTrue(stanzaPiena().removeAttrezzo("metro"),
+		assertTrue(this.riferimentoStanzaBloccataPiena.removeAttrezzo("metro"),
 				"La stanza piena deve poter permettere la rimozione dell'attrezzo metro.");
+		assertEquals(9, this.riferimentoStanzaBloccataPiena.getNumAttrezzi());
 	}
 
 	@Test
 	void testRemoveAttrezzoStanzaPienaAttrezziNo() {
-		assertFalse(stanzaPiena().removeAttrezzo("busta"),
+		assertFalse(this.riferimentoStanzaBloccataPiena.removeAttrezzo("busta"),
 				"La stanza piena NON deve poter permettere la rimozione dell'attrezzo busta.");
+		assertEquals(10, this.riferimentoStanzaBloccataPiena.getNumAttrezzi());
 	}
 
 	@Test
 	void testIsEmptyStanzaVuota() {
-		assertTrue(stanzaBloccata("piedediporco").isEmpty(), "La stanza vuota NON contiene attrezzi !");
+		assertTrue(this.riferimentoStanzaBloccataVuota.isEmpty(), "La stanza vuota NON contiene attrezzi !");
 	}
 
 	@Test
 	void testIsEmptyStanzaSingleton() {
-		assertFalse(stanzaBloccataSingleton(new Attrezzo("osso", 1)).isEmpty(),
-				"La stanza singleton contiene un attrezzo !");
+		assertFalse(this.riferimentoStanzaBloccataSingleton.isEmpty(), "La stanza singleton contiene un attrezzo !");
 	}
 
 	@Test
 	void testIsEmptyStanzaPiena() {
-		assertFalse(stanzaPiena().isEmpty(), "La stanza piena contiene molti attrezzi, non è vuota !");
+		assertFalse(this.riferimentoStanzaBloccataPiena.isEmpty(),
+				"La stanza piena contiene molti attrezzi, non è vuota !");
 	}
 
 	@Test

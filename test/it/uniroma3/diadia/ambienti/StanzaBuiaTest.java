@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaBuiaTest { // 26 / 26
+class StanzaBuiaTest { // 30 / 30
 
 	private StanzaBuia riferimentoStanzaBuiaVuota;
 	private StanzaBuia riferimentoStanzaBuiaSingleton;
@@ -48,6 +48,26 @@ class StanzaBuiaTest { // 26 / 26
 		return stanzaBuia("lanterna", new Attrezzo("osso", 1), new Attrezzo("martello", 2), new Attrezzo("chiodo", 1),
 				new Attrezzo("trapano", 3), new Attrezzo("spatola", 1), new Attrezzo("cofana", 3),
 				new Attrezzo("spada", 3), new Attrezzo("scudo", 1), new Attrezzo("pala", 4), new Attrezzo("metro", 2));
+	}
+
+	@Test
+	void testStanzaBuiaVuotaSize() {
+		assertEquals(0, this.riferimentoStanzaBuiaVuota.getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaBuiaSingletonSize() {
+		assertEquals(1, this.riferimentoStanzaBuiaSingleton.getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaBuiaSingletonNullSize() {
+		assertEquals(0, this.stanzaBuiaSingleton(null).getNumAttrezzi());
+	}
+
+	@Test
+	void testStanzaBuiaPienaSize() {
+		assertEquals(10, this.riferimentoStanzaBuiaPiena.getNumAttrezzi());
 	}
 
 	@Test

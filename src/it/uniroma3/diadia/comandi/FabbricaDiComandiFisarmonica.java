@@ -12,6 +12,14 @@ public class FabbricaDiComandiFisarmonica implements FabbricaDiComandi {
 		this.io = io;
 	}
 
+	public IO getIo() {
+		return this.io;
+	}
+
+	public void setIo(IO io) {
+		this.io = io;
+	}
+
 	@Override
 	public Comando costruisciComando(String istruzione) {
 		@SuppressWarnings("resource")

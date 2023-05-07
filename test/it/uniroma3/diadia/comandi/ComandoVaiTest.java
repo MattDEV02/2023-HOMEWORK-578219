@@ -11,8 +11,9 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.ambienti.StanzaBloccata;
 
-class ComandoVaiTest { // 3 / 3
+class ComandoVaiTest { // 4 / 4
 
 	private Stanza stanza1;
 	private Stanza stanza2;
@@ -34,7 +35,7 @@ class ComandoVaiTest { // 3 / 3
 	public void testVaiNull() {
 		this.partita.getLabirinto().setStanzaCorrente(this.stanza1);
 		this.comandoVai.esegui(this.partita);
-		assertEquals(this.stanza1, this.partita.getLabirinto().getStanzaIniziale());
+		assertEquals(this.stanza1, this.partita.getLabirinto().getStanzaCorrente());
 	}
 
 	@Test
@@ -43,7 +44,17 @@ class ComandoVaiTest { // 3 / 3
 		this.stanza1.impostaStanzaAdiacente("sud-ovest", this.stanza2);
 		this.comandoVai.setParametro("sud-ovest");
 		this.comandoVai.esegui(this.partita);
-		assertEquals(this.stanza2, this.partita.getLabirinto().getStanzaIniziale());
+		assertEquals(this.stanza2, this.partita.getLabirinto().getStanzaCorrente());
+	}
+
+	@Test
+	public void testVaiDirezioneEsistenteBloccata() {
+		this.stanza1 = new StanzaBloccata("aula 3", "sud-ovest", "piedediporco");
+		this.partita.getLabirinto().setStanzaCorrente(this.stanza1);
+		this.stanza1.impostaStanzaAdiacente("sud-ovest", this.stanza2);
+		this.comandoVai.setParametro("sud-ovest");
+		this.comandoVai.esegui(this.partita);
+		assertEquals(this.stanza1, this.partita.getLabirinto().getStanzaCorrente());
 	}
 
 	@Test
@@ -52,6 +63,6 @@ class ComandoVaiTest { // 3 / 3
 		this.stanza1.impostaStanzaAdiacente("sud-ovest", this.stanza2);
 		this.comandoVai.setParametro("in fondo a destra");
 		this.comandoVai.esegui(this.partita);
-		assertNotEquals(this.stanza2, this.partita.getLabirinto().getStanzaIniziale());
+		assertNotEquals(this.stanza2, this.partita.getLabirinto().getStanzaCorrente());
 	}
 }

@@ -24,13 +24,13 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class Stanza {
 
-	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
-	static final private int NUMERO_MASSIMO_DIREZIONI = 4;
 	private String nome;
 	private Map<String, Attrezzo> nome2attrezzi;
 	private int numeroAttrezzi;
 	private Map<String, Stanza> direzioni2stanze;
 	private int numeroStanzeAdiacenti;
+	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
+	static final private int NUMERO_MASSIMO_DIREZIONI = 4;
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti e non ci sono attrezzi.
@@ -48,34 +48,12 @@ public class Stanza {
 	}
 
 	/**
-	 * Restituisce la stanza adiacente nella direzione specificata.
-	 * 
-	 * @param direzione della stanza adiacente (nord-sud-ovest-est).
-	 * @return la stanza adiacente a seconda della direzione input.
-	 */
-	public Stanza getStanzaAdiacente(String direzione) { // testata nella classe LabirintoTest
-		Stanza stanza = null;
-		if (this.direzioni2stanze.containsKey(direzione))
-			stanza = this.direzioni2stanze.get(direzione);
-		return stanza;
-	}
-
-	/**
 	 * Restituisce la nome della stanza.
 	 * 
 	 * @return il nome della stanza.
 	 */
 	public String getNome() {
 		return this.nome;
-	}
-
-	/**
-	 * Restituisce la descrizione della stanza.
-	 * 
-	 * @return la descrizione della stanza.
-	 */
-	public String getDescrizione() {
-		return this.toString();
 	}
 
 	/**
@@ -204,6 +182,28 @@ public class Stanza {
 	public boolean equals(Object o) {
 		Stanza s = (Stanza) (o); // down-casting.
 		return this.getNome().equals(s.getNome());
+	}
+
+	/**
+	 * Restituisce la descrizione della stanza.
+	 * 
+	 * @return la descrizione della stanza.
+	 */
+	public String getDescrizione() {
+		return this.toString();
+	}
+
+	/**
+	 * Restituisce la stanza adiacente nella direzione specificata.
+	 * 
+	 * @param direzione della stanza adiacente (nord-sud-ovest-est).
+	 * @return la stanza adiacente a seconda della direzione input.
+	 */
+	public Stanza getStanzaAdiacente(String direzione) { // testata nella classe LabirintoTest
+		Stanza stanza = null;
+		if (this.direzioni2stanze.containsKey(direzione))
+			stanza = this.direzioni2stanze.get(direzione);
+		return stanza;
 	}
 
 	/**

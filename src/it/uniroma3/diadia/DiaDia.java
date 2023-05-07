@@ -39,8 +39,9 @@ public class DiaDia {
 	/**
 	 * Costruttore classe DiaDia.
 	 *
-	 * @param io istanza input-output per gestire l'interazione con l'utente da
-	 *           tastiera e schermo.
+	 * @param io        istanza input-output per gestire l'interazione con l'utente
+	 *                  da tastiera e schermo.
+	 * @param labirinto istanza del labirinto fisico che compone il gioco DiaDia.
 	 * 
 	 */
 	public DiaDia(IO IO, Labirinto labirinto) {
@@ -98,6 +99,14 @@ public class DiaDia {
 		} while (!processaIstruzione(istruzione));
 	}
 
+	public IO getIo() {
+		return this.io;
+	}
+
+	public void setIo(IO io) {
+		this.io = io;
+	}
+
 	/**
 	 * Processa una istruzione dell'utente.
 	 *
@@ -110,7 +119,8 @@ public class DiaDia {
 		comandoDaEseguire.esegui(this.partita);
 		if (this.partita.isVinta()) {
 			io.mostraMessaggio("\nComplimenti hai vinto! Hai trovato la stanza vincente ("
-					+ this.partita.getLabirinto().getStanzaVincente().getNome() + ").");
+					+ this.partita.getLabirinto().getStanzaVincente().getNome() + ") con "
+					+ this.partita.getGiocatore().getCfu() + " CFU.\n");
 			this.partita.setFinita();
 		} else if (this.partita.isPersa()) {
 			io.mostraMessaggio("\nMi dispiace ma hai esaurito i CFU e dunque hai perso.");

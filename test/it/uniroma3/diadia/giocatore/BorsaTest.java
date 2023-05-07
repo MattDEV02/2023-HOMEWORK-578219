@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class BorsaTest { // 35 / 35
+class BorsaTest { // 39 / 39
 
 	@Before
 	private Borsa borsa(int pesoMax, Attrezzo... attrezzi) {
@@ -309,6 +309,45 @@ class BorsaTest { // 35 / 35
 	}
 
 	@Test
+	void testGetContenutoOrdinatoPerPesoBorsaDoppia() {
+		Borsa borsaDoppia = this.borsaDoppia(new Attrezzo("osso", 1), new Attrezzo("martello", 2));
+		List<Attrezzo> l = borsaDoppia.getContenutoOrdinatoPerPeso();
+		Iterator<Attrezzo> it = l.iterator();
+		assertEquals(2, l.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaDoppia.getNome2attrezzi().get("osso"), it.next());
+		assertTrue(it.hasNext());
+		assertSame(borsaDoppia.getNome2attrezzi().get("martello"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetSortedSetOrdinatoPerPesoBorsaDoppia() {
+		Borsa borsaDoppia = this.borsaDoppia(new Attrezzo("martello", 2), new Attrezzo("metro", 1));
+		SortedSet<Attrezzo> s = borsaDoppia.getSortedSetOrdinatoPerPeso();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(2, s.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaDoppia.getNome2attrezzi().get("metro"), it.next());
+		assertTrue(it.hasNext());
+		assertSame(borsaDoppia.getNome2attrezzi().get("martello"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	void testGetContenutoOrdinatoPerNomeBorsaDoppia() {
+		Borsa borsaDoppia = this.borsaDoppia(new Attrezzo("piedediporco", 3), new Attrezzo("trapano", 3));
+		SortedSet<Attrezzo> s = borsaDoppia.getContenutoOrdinatoPerNome();
+		Iterator<Attrezzo> it = s.iterator();
+		assertEquals(2, s.size());
+		assertTrue(it.hasNext());
+		assertSame(borsaDoppia.getNome2attrezzi().get("piedediporco"), it.next());
+		assertTrue(it.hasNext());
+		assertSame(borsaDoppia.getNome2attrezzi().get("trapano"), it.next());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
 	void testGetContenutoRaggruppatoPerPesoBorsaPiena() {
 		Borsa borsaPiena = borsaPiena();
 		Map<Integer, Set<Attrezzo>> m = borsaPiena.getContenutoRaggruppatoPerPeso();
@@ -357,5 +396,26 @@ class BorsaTest { // 35 / 35
 		assertEquals(set2, m.get(2));
 		assertNull(m.get(1));
 		assertNull(m.get(3));
+	}
+
+	@Test
+	void testGetContenutoRaggruppatoPerPesoBorsaDoppia() {
+		Attrezzo osso = new Attrezzo("osso", 1);
+		Attrezzo trapano = new Attrezzo("trapano", 3);
+		Borsa borsaDoppia = borsaDoppia(trapano, osso);
+		Map<Integer, Set<Attrezzo>> m = borsaDoppia.getContenutoRaggruppatoPerPeso();
+		// ComparatoreAttrezziPerNome cmp = new ComparatoreAttrezziPerNome();
+		Set<Attrezzo> set1 = new TreeSet<Attrezzo>();
+		Set<Attrezzo> set3 = new TreeSet<Attrezzo>();
+		assertTrue(set1.add(osso));
+		assertTrue(set3.add(trapano));
+		assertNotNull(m.get(1));
+		assertNotNull(m.get(3));
+		assertEquals(2, m.size());
+		assertEquals(set1, m.get(1));
+		assertEquals(set3, m.get(3));
+		assertNull(m.get(0));
+		assertNull(m.get(2));
+		assertNull(m.get(4));
 	}
 }

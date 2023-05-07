@@ -36,7 +36,7 @@ class ComandoPosaTest { // 3 / 3
 		this.partita.getGiocatore().getBorsa().addAttrezzo(this.attrezzo);
 		this.comando.setParametro("martello");
 		this.comando.esegui(this.partita);
-		assertTrue(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo("martello"));
+		assertTrue(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("martello"));
 		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
 	}
 
@@ -44,17 +44,33 @@ class ComandoPosaTest { // 3 / 3
 	public void testAttrezzoPosatoNull() {
 		this.comando.setParametro(null);
 		this.comando.esegui(this.partita);
-		assertFalse(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo("osso"));
+		assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("osso"));
 		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
 	}
 
 	@Test
 	public void testTroppiAttrezzi() {
-		for (int i = 0; i < 10; i++)
-			this.partita.getLabirinto().getStanzaIniziale().addAttrezzo(new Attrezzo("utensile_a_caso " + i, 1));
+		int i;
+		for (i = 0; i < 11; i++)
+			this.partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("utensile_a_caso" + i, 1));
 		this.partita.getGiocatore().getBorsa().addAttrezzo(this.attrezzo);
 		this.comando.setParametro("martello");
 		this.comando.esegui(this.partita);
-		assertTrue(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo("martello"));
+		for (i = 0; i < 10; i++)
+			assertTrue(this.partita.getGiocatore().getBorsa().hasAttrezzo("utensile_a_caso" + i));
+		for (i = 0; i < 10; i++)
+			assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("utensile_a_caso" + i));
+		assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("utensile_a_caso" + 11));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("utensile_a_caso" + 11));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
+		assertTrue(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("martello"));
+		this.comando.setParametro("utensile_a_caso" + 11);
+		this.comando.esegui(this.partita);
+		assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("utensile_a_caso" + 11));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("utensile_a_caso" + 11));
+		this.comando.setParametro("utensile_a_caso" + 1);
+		this.comando.esegui(this.partita);
+		assertTrue(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("utensile_a_caso" + 1));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("utensile_a_caso" + 1));
 	}
 }

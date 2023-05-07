@@ -1,6 +1,7 @@
 package it.uniroma3.diadia.comandi;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,34 +33,38 @@ public class ComandoPrendiTest { // 4 / 4
 
 	@Test
 	public void testAttrezzoPresente() {
-		this.partita.getLabirinto().getStanzaIniziale().addAttrezzo(attrezzo);
+		this.partita.getLabirinto().getStanzaCorrente().addAttrezzo(this.attrezzo);
 		this.comando.setParametro("martello");
 		this.comando.esegui(this.partita);
-		assertFalse(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo("martello"));
+		assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("martello"));
+		assertTrue(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
 	}
 
 	@Test
 	public void testAttrezzoNonPresente() {
 		this.comando.setParametro("martello");
 		this.comando.esegui(this.partita);
-		assertFalse(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo("martello"));
+		assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("martello"));
+		assertTrue(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
 	}
 
 	@Test
 	public void testAttrezzoNull() {
-		this.partita.getLabirinto().getStanzaIniziale().addAttrezzo(null);
+		this.partita.getLabirinto().getStanzaCorrente().addAttrezzo(null);
 		this.comando.setParametro(null);
 		this.comando.esegui(this.partita);
-		assertFalse(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo(null));
+		assertFalse(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo(null));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo(null));
 	}
 
 	@Test
 	public void testAttrezzoCheNonSiPuoPrendere() {
-		for (int i = 0; i < 10; i++)
-			this.partita.getLabirinto().getStanzaIniziale().addAttrezzo(new Attrezzo("utensile_a_caso " + i, 1));
-		this.comando.setParametro("utensile_a_caso 11");
+		this.partita.getLabirinto().getStanzaCorrente().addAttrezzo(new Attrezzo("utensile_pesante", 20));
+		assertTrue(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("utensile_pesante"));
+		this.comando.setParametro("utensile_pesante");
 		this.comando.esegui(this.partita);
-		assertFalse(this.partita.getLabirinto().getStanzaIniziale().hasAttrezzo("incudine"));
+		assertTrue(this.partita.getLabirinto().getStanzaCorrente().hasAttrezzo("utensile_pesante"));
+		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("utensile_pesante"));
 	}
 
 }

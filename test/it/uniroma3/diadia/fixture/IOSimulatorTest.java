@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.IOSimulator;
 
-class IOSimulatorTest {
+class IOSimulatorTest { // 5 / 5
 
 	private IOSimulator io;
 	private List<String> righeDaLeggere;

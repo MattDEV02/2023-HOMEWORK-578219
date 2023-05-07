@@ -108,7 +108,13 @@ public class Partita {
 	 */
 	public boolean isVinta() {
 		return this.getGiocatore().getCfu() > 0
-				&& this.getLabirinto().getStanzaVincente().equals(this.getLabirinto().getStanzaIniziale());
+				&& this.getLabirinto().getStanzaVincente().equals(this.getLabirinto().getStanzaCorrente());
+	}
+
+	@Override
+	public String toString() {
+		return "Partita [finita=" + this.getFinita() + ", labirinto=" + this.getLabirinto() + ", giocatore="
+				+ this.getGiocatore() + "]";
 	}
 
 }
