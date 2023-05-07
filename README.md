@@ -13,7 +13,7 @@ Questa repository contiene il codice relativo all'homework 3 dello studio di cas
 
 - `src/`: contiene il codice sorgente principale.
 - `test/`: contiene i test cases che sfruttano JUnit 5.
-- `docs/`: contiene la documentazione del progetto.
+- `docs/`: contiene la documentazione del progetto (rimasta al primo homework).
 - `eseguiTest3Final.bat`: script batch che permette di confermare che packages e classi abbiano denominazione corretta.
 - `diadia.jar`: esportazione in formato JAR del progetto.
 - `Test3Final.jar`: test fornito dal docente eseguibile tramite lo script citato sopra.
