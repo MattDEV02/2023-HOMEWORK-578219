@@ -5,7 +5,9 @@ Questa repository contiene il codice relativo all'homework 3 dello studio di cas
 
 ## Avvertenza
 
-Il progetto è stato svolto in singolo.
+- Il progetto è stato svolto in singolo.
+- Gli esercizi facoltativi NON sono stati svolti.
+- I test di controllo prima della consegna sono stati superati.
 
 ## Struttura del progetto
 
