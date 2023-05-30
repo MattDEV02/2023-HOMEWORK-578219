@@ -3,7 +3,7 @@ package it.uniroma3.diadia.comandi;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
-public class ComandoGuarda implements Comando {
+public class ComandoGuarda extends AbstractComando {
 
 	private IO io;
 	static final private String NOME = "guarda";
@@ -18,10 +18,6 @@ public class ComandoGuarda implements Comando {
 	@Override
 	public String getNome() {
 		return ComandoGuarda.NOME;
-	}
-
-	@Override
-	public void setParametro(String parametro) {
 	}
 
 	@Override

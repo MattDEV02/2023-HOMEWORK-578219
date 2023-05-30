@@ -1,5 +1,7 @@
 package it.uniroma3.diadia.attrezzi;
 
+import java.util.Objects;
+
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.Borsa;
 
@@ -103,7 +105,7 @@ public class Attrezzo implements Comparable<Attrezzo> { // extends Object
 		if (this == null || o == null || this.getClass() != o.getClass())
 			return false;
 		Attrezzo a = (Attrezzo) (o); // down-casting
-		return this.getNome().equals(a.getNome()) && this.getPeso() == a.getPeso();
+		return this.getPeso() == a.getPeso() && Objects.equals(this.getNome(), a.getNome());
 	}
 
 	@Override
@@ -114,9 +116,9 @@ public class Attrezzo implements Comparable<Attrezzo> { // extends Object
 
 	@Override
 	public int compareTo(Attrezzo attrezzo) {
-		if (attrezzo.getNome().equals(this.getNome()))
-			return this.getPeso() - attrezzo.getPeso();
-		return attrezzo.getNome().compareTo(this.getNome());
+		if (this.getPeso() - attrezzo.getPeso() == 0)
+			return this.getNome().compareTo(attrezzo.getNome());
+		return this.getPeso() - attrezzo.getPeso();
 	}
 
 	/**

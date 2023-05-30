@@ -10,23 +10,40 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.ambienti.StanzaMagica;
 
-class PartitaTest { // 15 / 15
+class PartitaTest { // 20 / 20
 
-	Labirinto labirinto;
+	private Labirinto labirinto;
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		this.labirinto = new LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("martello", 3)
-				.addStanzaVincente("Biblioteca").addAdiacenza("Atrio", "Biblioteca", "nord").getLabirinto();
+		this.labirinto = new Labirinto.LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("osso", 1)
+				.addStanzaVincente("Biblioteca").addStanzaMagica("Aula N11", 1).addAttrezzo("piedediporco", 3)
+				.addStanzaBloccata("Aula N10", "est", "piedediporco").addAttrezzo("lanterna", 2)
+				.addStanzaBuia("Laboratorio", "lanterna").addAdiacenza("Atrio", "Biblioteca", "nord")
+				.addAdiacenza("Atrio", "Aula N11", "est").addAdiacenza("Atrio", "Aula N10", "sud")
+				.addAdiacenza("Atrio", "Laboratorio", "ovest").addAdiacenza("Aula N11", "Laboratorio", "est")
+				.addAdiacenza("Aula N11", "Atrio", "ovest").addAdiacenza("Aula N10", "Atrio", "nord")
+				.addAdiacenza("Aula N10", "Aula N11", "est").addAdiacenza("Aula N10", "Laboratorio", "ovest")
+				.addAdiacenza("Laboratorio", "Atrio", "est").addAdiacenza("Laboratorio", "Aula N11", "ovest")
+				.addAdiacenza("Biblioteca", "Atrio", "sud").getLabirinto();
 	}
 
 	@Before
 	private Partita partitaAppenaIniziata() {
 		return new Partita(this.labirinto); // condizioni iniziali partita appena iniziata definite nel costruttore
 											// della classe Partita.
+	}
+
+	@Before
+	private Partita partitaNonAppenaIniziata() {
+		Partita partitaNonAppenaIniziataOutput = new Partita(this.labirinto);
+		partitaNonAppenaIniziataOutput.getGiocatore().setCfu(17); // ad esempio...
+		partitaNonAppenaIniziataOutput.getLabirinto().setStanzaCorrente(new StanzaMagica("Aula N11", 1));
+		return partitaNonAppenaIniziataOutput;
+
 	}
 
 	@Before
@@ -49,83 +66,115 @@ class PartitaTest { // 15 / 15
 
 	@Test
 	void testPartitaAppenaIniziataIsPersa() {
-		assertFalse(partitaAppenaIniziata().isPersa(), "Una partita appena iniziata NON è una è partita persa.");
+		assertFalse(this.partitaAppenaIniziata().isPersa(), "Una partita appena iniziata NON è una è partita persa.");
 	}
 
 	@Test
 	void testPartitaAppenaIniziataIsVinta() {
-		assertFalse(partitaAppenaIniziata().isVinta(), "Una partita appena iniziata NON è una è partita vincente.");
+		assertFalse(this.partitaAppenaIniziata().isVinta(),
+				"Una partita appena iniziata NON è una è partita vincente.");
+	}
+
+	@Test
+	void testPartitaNonAppenaIniziataIsVinta() {
+		assertFalse(this.partitaNonAppenaIniziata().isVinta(),
+				"Una partita NON appena iniziata NON è una è partita vincente.");
 	}
 
 	@Test
 	void testPartitaAppenaIniziataIsFinita() {
-		assertFalse(partitaAppenaIniziata().isFinita(), "Una partita appena iniziata NON è una è partita finita.");
+		assertFalse(this.partitaAppenaIniziata().isFinita(), "Una partita appena iniziata NON è una è partita finita.");
+	}
+
+	@Test
+	void testPartitaNonAppenaIniziataIsFinita() {
+		assertFalse(this.partitaNonAppenaIniziata().isFinita(),
+				"Una partita NON appena iniziata NON è una è partita finita.");
+	}
+
+	@Test
+	void testPartitaNonAppenaIniziataIsPersa() {
+		assertFalse(this.partitaNonAppenaIniziata().isPersa(),
+				"Una partita NON appena iniziata NON è una è partita persa.");
 	}
 
 	@Test
 	void testPartitaVintaIsPersa() {
-		assertFalse(partitaVinta().isPersa(), "Una partita vinta NON è una partita persa.");
+		assertFalse(this.partitaVinta().isPersa(), "Una partita vinta NON è una partita persa.");
 	}
 
 	@Test
 	void testPartitaVintaIsVinta() {
-		assertTrue(partitaVinta().isVinta(), "Una partita vinta è una partita vinta.");
+		assertTrue(this.partitaVinta().isVinta(), "Una partita vinta è una partita vinta.");
 	}
 
 	@Test
 	void testPartitaVintaIsFinita() {
-		assertTrue(partitaVinta().isFinita(), "Una partita vinta è una partita finita.");
+		assertTrue(this.partitaVinta().isFinita(), "Una partita vinta è una partita finita.");
 	}
 
 	@Test
 	void testPartitaPersaisPersa() {
-		assertTrue(partitaPersa().isPersa(), "Una partita persa è una partita persa.");
+		assertTrue(this.partitaPersa().isPersa(), "Una partita persa è una partita persa.");
 	}
 
 	@Test
 	void testPartitaPersaIsVinta() {
-		assertFalse(partitaPersa().isVinta(), "Una partita persa NON è una partita vinta.");
+		assertFalse(this.partitaPersa().isVinta(), "Una partita persa NON è una partita vinta.");
 	}
 
 	@Test
 	void testPartitaPersaIsFinita() {
-		assertTrue(partitaPersa().isFinita(), "Una partita persa è una partita finita.");
+		assertTrue(this.partitaPersa().isFinita(), "Una partita persa è una partita finita.");
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaVincente() {
 		assertNotEquals("Una partita appena iniziata deve avere come stanza corrente atrio e NON biblioteca.",
-				partitaAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
+				this.partitaAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
+	}
+
+	@Test
+	void testPartitaNonAppenaIniziataStanzaVincente() {
+		assertNotEquals("Una partita NON appena iniziata deve avere come stanza corrente atrio e NON biblioteca.",
+				this.partitaNonAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaCorrente() {
 		assertEquals("Una partita appena iniziata deve avere come stanza corrente atrio e non altre stanze.",
-				partitaAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Atrio"));
+				this.partitaAppenaIniziata().getLabirinto().getStanzaCorrente(), new Stanza("Atrio"));
+	}
+
+	@Test
+	void testPartitaNonAppenaIniziataStanzaCorrente() {
+		assertEquals("Una partita NON appena iniziata deve avere come stanza corrente Aula N11 e non altre stanze.",
+				this.partitaAppenaIniziata().getLabirinto().getStanzaCorrente().getStanzaAdiacente("est"),
+				new StanzaMagica("Aula N11", 1));
 	}
 
 	@Test
 	void testPartitaVintaStanzaVincente() {
 		assertEquals("Una partita vinta ha come stanza vincente la biblioteca e NON altre stanze.",
-				partitaVinta().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
+				this.partitaVinta().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaPersaStanzaVincente() {
 		assertNotEquals("Una partita persa NON può avere come stanza corrente la biblioteca.",
-				partitaPersa().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
+				this.partitaPersa().getLabirinto().getStanzaCorrente(), new Stanza("Biblioteca"));
 	}
 
 	@Test
 	void testPartitaPersaStanzaCorrente() {
 		assertEquals("Questa particolare partita persa deve avere come stanza corrente Aula N10.",
-				partitaPersa().getLabirinto().getStanzaCorrente(), new Stanza("Aula N10"));
+				this.partitaPersa().getLabirinto().getStanzaCorrente(), new Stanza("Aula N10"));
 	}
 
 	@Test
 	void testPartitaAppenaIniziataStanzaVincente2() {
 		assertEquals("Questa particolare partita persa deve avere come stanza corrente Aula N10.",
-				partitaAppenaIniziata().getLabirinto().getStanzaVincente(),
+				this.partitaAppenaIniziata().getLabirinto().getStanzaVincente(),
 				partitaVinta().getLabirinto().getStanzaCorrente());
 	}
 }

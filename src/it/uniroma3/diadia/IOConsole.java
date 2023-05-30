@@ -1,5 +1,6 @@
 package it.uniroma3.diadia;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -12,6 +13,20 @@ import java.util.Scanner;
  * 
  */
 public class IOConsole implements IO {
+
+	private Scanner scanner; // di linee
+
+	public IOConsole(Scanner scanner) {
+		this.scanner = scanner;
+	}
+
+	public Scanner getScanner() {
+		return this.scanner;
+	}
+
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
 
 	/**
 	 * 
@@ -26,10 +41,21 @@ public class IOConsole implements IO {
 	 * @return la riga scansionata da tastiera.
 	 */
 	public String leggiRiga() {
-		@SuppressWarnings("resource")
-		Scanner scannerDiLinee = new Scanner(System.in);
-		String riga = scannerDiLinee.nextLine();
-		// scannerDiLinee.close(); // mi da errore.
+		String riga = null;
+		try {
+			riga = this.scanner.nextLine();
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+		}
+		// scannerDiLinee.close();
 		return riga;
+	}
+
+	public void close() {
+		try {
+			this.scanner.close();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 }

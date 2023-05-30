@@ -3,6 +3,8 @@ package it.uniroma3.diadia.comandi;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.util.Scanner;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +12,6 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 class ComandoPosaTest { // 3 / 3
@@ -22,12 +23,13 @@ class ComandoPosaTest { // 3 / 3
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		Labirinto labirinto = new LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("martello", 3)
+		Labirinto labirinto = new Labirinto.LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("martello", 3)
 				.addStanzaVincente("Biblioteca").addAdiacenza("Atrio", "Biblioteca", "nord").getLabirinto();
 		this.partita = new Partita(labirinto);
 		this.attrezzo = new Attrezzo("martello", 2);
 		this.comando = new ComandoPosa();
-		this.io = new IOConsole();
+		Scanner scanner = new Scanner(System.in);
+		this.io = new IOConsole(scanner);
 		this.comando.setIo(this.io);
 	}
 

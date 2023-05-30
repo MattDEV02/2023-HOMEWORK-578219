@@ -1,31 +1,31 @@
 package it.uniroma3.diadia.comandi;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
-public class ComandoAiuto implements Comando {
+public class ComandoAiuto extends AbstractComando {
 
 	private IO io;
 	static final private String NOME = "aiuto";
-	static final private String[] elencoComandi = { "vai <direzione>", "aiuto", "fine", "prendi <nomeAttrezzo>",
-			"posa <nomeAttrezzo>", "guarda" };
+	static final private Set<String> elencoComandi = new HashSet<String>(
+			Arrays.asList("vai <direzione>", "aiuto", "fine", "prendi <nomeAttrezzo>", "posa <nomeAttrezzo>", "guarda",
+					"regala <nomeAttrezzo>", "saluta", "interagisci"));
 
 	@Override
 	public void esegui(Partita partita) {
 		// TODO: stampa info partita...
-		int numeroComandi = ComandoAiuto.elencoComandi.length;
-		for (int i = 0; i < numeroComandi; i++) {
-			this.io.mostraMessaggio(ComandoAiuto.elencoComandi[i] + " ");
-		}
+		this.io.mostraMessaggio("\n" + ComandoAiuto.elencoComandi.size() + " comandi: \n");
+		for (String nomeComando : ComandoAiuto.elencoComandi)
+			this.io.mostraMessaggio("   " + nomeComando + " ");
 	}
 
 	@Override
 	public String getParametro() {
-		return "";
-	}
-
-	@Override
-	public void setParametro(String parametro) {
+		return null;
 	}
 
 	@Override

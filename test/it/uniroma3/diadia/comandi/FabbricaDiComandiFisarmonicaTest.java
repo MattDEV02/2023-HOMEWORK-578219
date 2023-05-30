@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.Scanner;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +20,8 @@ public class FabbricaDiComandiFisarmonicaTest { // 17 / 17
 
 	@Before
 	public void setUp() throws Exception {
-		this.io = new IOConsole();
+		Scanner scanner = new Scanner(System.in);
+		this.io = new IOConsole(scanner);
 		this.fabbrica = new FabbricaDiComandiFisarmonica(this.io);
 	}
 

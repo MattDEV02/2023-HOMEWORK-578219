@@ -7,20 +7,27 @@ import it.uniroma3.diadia.giocatore.Giocatore;
 
 public class ComandoVai implements Comando {
 
-	private String direzione;
+	private String nomeDirezione;
 	private IO io;
 	private final static String NOME = "vai";
+	private final static String MESSAGGIO_DIR_INESISTENTE = "Direzione inesistente.";
 
 	@Override
 	public void esegui(Partita partita) {
 		Stanza stanzaCorrente = partita.getLabirinto().getStanzaCorrente();
-		if (this.direzione == null || this.direzione.equals("")) {
-			this.io.mostraMessaggio("direzione " + this.direzione + " NON valida.");
+		if (this.nomeDirezione == null || this.nomeDirezione.equals("")) {
+			this.io.mostraMessaggio("Direzione " + this.nomeDirezione + " NON valida.");
 			return;
 		}
-		Stanza prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.direzione);
+		Stanza prossimaStanza;
+		try {
+			prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.getParametro());
+		} catch (IllegalArgumentException e) {
+			this.getIo().mostraMessaggio(ComandoVai.MESSAGGIO_DIR_INESISTENTE);
+			return;
+		}
 		if (prossimaStanza == null) {
-			this.io.mostraMessaggio("direzione inesistente.");
+			this.io.mostraMessaggio(ComandoVai.MESSAGGIO_DIR_INESISTENTE);
 			return;
 		}
 		partita.getLabirinto().setStanzaCorrente(prossimaStanza);
@@ -30,12 +37,12 @@ public class ComandoVai implements Comando {
 
 	@Override
 	public String getParametro() {
-		return this.direzione;
+		return this.nomeDirezione;
 	}
 
 	@Override
 	public void setParametro(String parametro) {
-		this.direzione = parametro;
+		this.nomeDirezione = parametro;
 	}
 
 	@Override

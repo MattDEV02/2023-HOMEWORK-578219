@@ -3,7 +3,7 @@ package it.uniroma3.diadia.comandi;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
-public class ComandoFine implements Comando {
+public class ComandoFine extends AbstractComando {
 
 	private IO io;
 	static final private String NOME = "fine";
@@ -21,10 +21,6 @@ public class ComandoFine implements Comando {
 	}
 
 	@Override
-	public void setParametro(String parametro) {
-	}
-
-	@Override
 	public String getNome() {
 		return ComandoFine.NOME;
 	}
@@ -38,5 +34,4 @@ public class ComandoFine implements Comando {
 	public void setIo(IO io) {
 		this.io = io;
 	}
-
 }

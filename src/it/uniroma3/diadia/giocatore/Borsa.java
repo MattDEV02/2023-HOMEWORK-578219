@@ -3,6 +3,7 @@ package it.uniroma3.diadia.giocatore;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,9 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import it.uniroma3.diadia.Configuratore;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerNome;
-import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPesoPoiNome;
 
 /**
  * 
@@ -28,7 +29,8 @@ import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPesoPoiNome;
  */
 public class Borsa {
 
-	public final static int DEFAULT_PESO_MAX_BORSA = 10;
+	public final static int DEFAULT_PESO_MAX_BORSA = Configuratore.getPesoMaxBorsa();
+	private static ComparatoreAttrezziPerNome CMP_ATTREZZI_NOME = new ComparatoreAttrezziPerNome();
 	Map<String, Attrezzo> nome2attrezzi;
 	private int numeroAttrezzi; // numero attrezzi attuale
 	private int pesoMax; // della borsa
@@ -291,13 +293,11 @@ public class Borsa {
 	}
 
 	SortedSet<Attrezzo> getSortedSetOrdinatoPerPeso() {
-		SortedSet<Attrezzo> s = new TreeSet<Attrezzo>(new ComparatoreAttrezziPerPesoPoiNome());
-		s.addAll(this.nome2attrezzi.values());
-		return s;
+		return new TreeSet<Attrezzo>(this.nome2attrezzi.values());
 	}
 
 	SortedSet<Attrezzo> getContenutoOrdinatoPerNome() {
-		SortedSet<Attrezzo> s = new TreeSet<Attrezzo>(new ComparatoreAttrezziPerNome());
+		SortedSet<Attrezzo> s = new TreeSet<Attrezzo>(Borsa.CMP_ATTREZZI_NOME);
 		s.addAll(this.nome2attrezzi.values());
 		return s;
 	}
@@ -305,7 +305,14 @@ public class Borsa {
 	List<Attrezzo> getContenutoOrdinatoPerPeso() {
 		List<Attrezzo> l = new ArrayList<>();
 		l.addAll(this.nome2attrezzi.values());
-		Collections.sort(l, new ComparatoreAttrezziPerPesoPoiNome());
+		Collections.sort(l, new Comparator<Attrezzo>() {
+			@Override
+			public int compare(Attrezzo attrezzo1, Attrezzo attrezzo2) {
+				if (attrezzo1.getPeso() - attrezzo2.getPeso() == 0)
+					return attrezzo1.getNome().compareTo(attrezzo2.getNome());
+				return attrezzo1.getPeso() - attrezzo2.getPeso();
+			}
+		});
 		return l;
 	}
 
@@ -315,7 +322,7 @@ public class Borsa {
 		for (Attrezzo attrezzo : this.nome2attrezzi.values()) {
 			tmp = mappa.get(attrezzo.getPeso());
 			if (tmp == null)
-				tmp = new TreeSet<Attrezzo>(new ComparatoreAttrezziPerNome());
+				tmp = new TreeSet<Attrezzo>(Borsa.CMP_ATTREZZI_NOME);
 			tmp.add(attrezzo);
 			mappa.put(attrezzo.getPeso(), tmp);
 		}

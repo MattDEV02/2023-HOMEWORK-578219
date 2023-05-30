@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 
 /**
  * 
@@ -22,13 +23,15 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  * 
  */
 
-public class Stanza {
+public class Stanza implements Comparable<Stanza> {
 
 	private String nome;
 	private Map<String, Attrezzo> nome2attrezzi;
 	private int numeroAttrezzi;
-	private Map<String, Stanza> direzioni2stanze;
+	private Map<Direzione, Stanza> direzioni2stanze;
 	private int numeroStanzeAdiacenti;
+	private AbstractPersonaggio personaggio;
+
 	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
 	static final private int NUMERO_MASSIMO_DIREZIONI = 4;
 
@@ -40,8 +43,8 @@ public class Stanza {
 	public Stanza(String nome) { // costruttore di riferimento
 		if (Stanza.valid(nome)) {
 			this.nome = nome;
-			this.direzioni2stanze = new HashMap<>();
-			this.nome2attrezzi = new HashMap<>();
+			this.direzioni2stanze = new HashMap<Direzione, Stanza>();
+			this.nome2attrezzi = new HashMap<String, Attrezzo>();
 			this.numeroStanzeAdiacenti = 0;
 			this.numeroAttrezzi = 0;
 		}
@@ -109,7 +112,7 @@ public class Stanza {
 		return this.direzioni2stanze.values();
 	}
 
-	public Map<String, Stanza> getDirezioni2stanze() {
+	public Map<Direzione, Stanza> getDirezioni2stanze() {
 		return this.direzioni2stanze;
 	}
 
@@ -129,7 +132,7 @@ public class Stanza {
 	 * @return restituisce l'insieme di posizioni possibili in una determinata
 	 *         stanza.
 	 */
-	public Set<String> getDirezioni() {
+	public Set<Direzione> getDirezioni() {
 		return this.direzioni2stanze.keySet();
 	}
 
@@ -142,6 +145,14 @@ public class Stanza {
 			this.nome = nome;
 	}
 
+	public AbstractPersonaggio getPersonaggio() {
+		return this.personaggio;
+	}
+
+	public void setPersonaggio(AbstractPersonaggio personaggio) {
+		this.personaggio = personaggio;
+	}
+
 	/**
 	 * Restituisce una rappresentazione stringa di questa stanza, stampadone la
 	 * descrizione, le uscite e gli eventuali attrezzi contenuti
@@ -151,9 +162,9 @@ public class Stanza {
 	@Override // overrides toString() di java.lang.Object
 	public String toString() {
 		StringBuilder output = new StringBuilder("Stanza corrente: " + this.getNome() + ".\nUscite:");
-		output.append("[ ");
-		for (String direzione : this.getDirezioni()) {
-			output.append(direzione + ", ");
+		output.append(" [ ");
+		for (Direzione direzione : this.getDirezioni()) {
+			output.append(direzione.toString() + ", ");
 		}
 		output.deleteCharAt(output.length() - 2);
 		output.append("]");
@@ -180,8 +191,15 @@ public class Stanza {
 	 */
 	@Override // overrides equals(Object o) di java.lang.Object
 	public boolean equals(Object o) {
+		if (this == null || o == null)
+			return false;
 		Stanza s = (Stanza) (o); // down-casting.
 		return this.getNome().equals(s.getNome());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getNome().hashCode();
 	}
 
 	/**
@@ -201,8 +219,13 @@ public class Stanza {
 	 */
 	public Stanza getStanzaAdiacente(String direzione) { // testata nella classe LabirintoTest
 		Stanza stanza = null;
-		if (this.direzioni2stanze.containsKey(direzione))
-			stanza = this.direzioni2stanze.get(direzione);
+		try {
+			Direzione dir = Direzione.valueOf(direzione);
+			if (this.direzioni2stanze.containsKey(dir))
+				stanza = this.direzioni2stanze.get(dir);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
 		return stanza;
 	}
 
@@ -216,15 +239,20 @@ public class Stanza {
 	 */
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
 		boolean aggiornato = false;
-		if (direzioni2stanze.containsKey(direzione)) {
-			this.direzioni2stanze.put(direzione, stanza);
-			aggiornato = true;
-		}
-		if (!aggiornato)
-			if (this.numeroStanzeAdiacenti < Stanza.NUMERO_MASSIMO_DIREZIONI) {
-				this.direzioni2stanze.put(direzione, stanza);
-				this.numeroStanzeAdiacenti++;
+		try {
+			Direzione dir = Direzione.valueOf(direzione);
+			if (this.direzioni2stanze.containsKey(dir)) {
+				this.direzioni2stanze.put(dir, stanza);
+				aggiornato = true;
 			}
+			if (!aggiornato)
+				if (this.numeroStanzeAdiacenti < Stanza.NUMERO_MASSIMO_DIREZIONI) {
+					this.direzioni2stanze.put(dir, stanza);
+					this.numeroStanzeAdiacenti++;
+				}
+		} catch (IllegalArgumentException e) {
+			return;
+		}
 	}
 
 	/**
@@ -243,6 +271,8 @@ public class Stanza {
 	 * @return true se l'attrezzo è presente nella stanza, false altrimenti.
 	 */
 	public boolean hasAttrezzo(String nomeAttrezzo) {
+		if (nomeAttrezzo == null || nomeAttrezzo.equals(""))
+			return false;
 		return this.nome2attrezzi.containsKey(nomeAttrezzo);
 	}
 
@@ -286,5 +316,12 @@ public class Stanza {
 	 */
 	public static boolean valid(String nomeStanza) {
 		return nomeStanza != null && nomeStanza.length() > 0;
+	}
+
+	@Override
+	public int compareTo(Stanza stanza) {
+		if (this.getNumAttrezzi() - stanza.getNumAttrezzi() == 0)
+			return this.getNome().compareTo(stanza.getNome());
+		return this.getNumAttrezzi() - stanza.getNumAttrezzi();
 	}
 }
