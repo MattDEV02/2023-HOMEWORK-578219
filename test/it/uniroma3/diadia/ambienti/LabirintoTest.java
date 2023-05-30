@@ -9,12 +9,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.personaggi.Cane;
+import it.uniroma3.diadia.personaggi.Mago;
+import it.uniroma3.diadia.personaggi.Strega;
+
 /*
 	classe di test atta a testare l'efficacia della "connessione" tra Stanze (e
 	attrezzi) del Labirinto del gioco DiaDia. Tale connessione è stata definita
  	nel costruttore della classe this.labirinto. 
 */
-class LabirintoTest {
+class LabirintoTest { // 17 / 17
 
 	private Labirinto labirinto; // per questa tipologia di classe testing mi basta una singola
 									// istanza della classe Labirinto.
@@ -22,8 +27,11 @@ class LabirintoTest {
 	@BeforeEach // Denotes that the annotated method should be executed before each @Test
 	public void setUp() throws Exception {
 		this.labirinto = new Labirinto.LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("osso", 1)
-				.addStanzaVincente("Biblioteca").addStanzaMagica("Aula N11", 1).addAttrezzo("piedediporco", 3)
+				.addStrega("Mafalda", "Ciao, mi chiamo strega Mafalda.").addStanzaVincente("Biblioteca")
+				.addStanzaMagica("Aula N11", 1).addAttrezzo("piedediporco", 3)
+				.addMago("Merlino", "Ciao, mi chiamo mago Merlino", new Attrezzo("piedediporco", 3))
 				.addStanzaBloccata("Aula N10", "est", "piedediporco").addAttrezzo("lanterna", 2)
+				.addCane("Tom", "Ciao, mi chiamo cane Tom", "carne", new Attrezzo("lanterna", 2))
 				.addStanzaBuia("Laboratorio", "lanterna").addAdiacenza("Atrio", "Biblioteca", "nord")
 				.addAdiacenza("Atrio", "Aula N11", "est").addAdiacenza("Atrio", "Aula N10", "sud")
 				.addAdiacenza("Atrio", "Laboratorio", "ovest").addAdiacenza("Aula N11", "Laboratorio", "est")
@@ -123,5 +131,23 @@ class LabirintoTest {
 	void testLabirintoGetStanzaVincenteDirezioneInesistente() {
 		assertNull(this.labirinto.getStanzaVincente().getStanzaAdiacente("direzione_inesistente"),
 				"La direzione inesistente alla stanza corrente deve tornare null.");
+	}
+
+	@Test
+	void testLabirintoMago() {
+		assertEquals(new Mago("Merlino", "Ciao, mi chiamo mago Merlino", new Attrezzo("piedediporco", 3)),
+				this.labirinto.getStanzaCorrente().getStanzaAdiacente("est").getPersonaggio());
+	}
+
+	@Test
+	void testLabirintoCane() {
+		assertEquals(new Cane("Tom", "Ciao, mi chiamo cane Tom", "Carne", new Attrezzo("lanterna", 2)),
+				this.labirinto.getStanzaCorrente().getStanzaAdiacente("sud").getPersonaggio());
+	}
+
+	@Test
+	void testLabirintoStrega() {
+		assertEquals(new Strega("Mafalda", "Ciao, mi chiamo strega Mafalda"),
+				this.labirinto.getStanzaCorrente().getPersonaggio());
 	}
 }

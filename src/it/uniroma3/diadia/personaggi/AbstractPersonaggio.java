@@ -1,5 +1,7 @@
 package it.uniroma3.diadia.personaggi;
 
+import java.util.Objects;
+
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
@@ -44,8 +46,32 @@ public abstract class AbstractPersonaggio {
 
 	@Override
 	public String toString() {
-		return this.getNome();
-		// TODO aggiunngi ha salutato e forse descrizione
+		return this.getClass().getSimpleName() + " " + this.getNome() + ", " + this.getPresentazione();
+	}
+
+	public String getPresentazione() {
+		return this.presentazione;
+	}
+
+	public void setPresentazione(String presentazione) {
+		this.presentazione = presentazione;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getClass(), this.getNome());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (this == null || obj == null)
+			return false;
+		if (this.getClass() != obj.getClass())
+			return false;
+		AbstractPersonaggio other = (AbstractPersonaggio) obj;
+		return Objects.equals(this.getNome(), other.getNome());
 	}
 
 	abstract public String agisci(Partita partita);

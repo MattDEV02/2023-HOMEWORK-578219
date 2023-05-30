@@ -34,14 +34,14 @@ public class CaricatoreLabirintoTest {
 	}
 
 	@Test
-	public void testMonolocale() throws FormatoFileNonValidoException, FileNotFoundException {
+	public void testMonolocaleString() throws FormatoFileNonValidoException, FileNotFoundException {
 		this.caricatoreLabirinto = new CaricatoreLabirinto(new StringReader(this.monolocale));
 		this.caricatoreLabirinto.carica();
 		assertSame(this.caricatoreLabirinto.getStanzaIniziale(), this.caricatoreLabirinto.getStanzaVincente());
 	}
 
 	@Test
-	public void testBilocale() throws FormatoFileNonValidoException, FileNotFoundException {
+	public void testBilocaleString() throws FormatoFileNonValidoException, FileNotFoundException {
 		this.caricatoreLabirinto = new CaricatoreLabirinto(new StringReader(this.bilocale));
 		this.caricatoreLabirinto.carica();
 		assertEquals("N12", this.caricatoreLabirinto.getStanzaIniziale().getNome());

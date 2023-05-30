@@ -156,6 +156,6 @@ public final class DiaDia {
 		DiaDia diaDia = new DiaDia(ioConsole, labirinto);
 		diaDia.gioca();
 		diaDia.getIOConsole().close();
-		// N.B. = per i test ho creato una src folder chiamata test
+		// N.B. = per i test ho creato una src folder chiamata test. 271 / 271
 	}
 }
