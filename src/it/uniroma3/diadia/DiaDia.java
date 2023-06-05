@@ -1,7 +1,5 @@
 package it.uniroma3.diadia;
 
-import java.util.Scanner;
-
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
@@ -126,36 +124,5 @@ public final class DiaDia {
 			this.partita.setFinita();
 		}
 		return this.partita.isFinita();
-	}
-
-	/**
-	 * metodo principale del progetto.
-	 * 
-	 * @param args argomenti da linea di comando forniti.
-	 * 
-	 */
-	public final static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		IOConsole ioConsole = new IOConsole(scanner);
-		Labirinto labirinto = Labirinto.newBuilder("labirinto1.txt").getLabirinto();
-		/*
-		 * LabirintoBuilder().addStanzaIniziale("Atrio").addAttrezzo("osso", 1)
-		 * .addStanzaVincente("Biblioteca").addStanzaMagica("Aula N11",
-		 * 1).addAttrezzo("piedediporco", 3) .addStanzaBloccata("Aula N10", "est",
-		 * "piedediporco").addAttrezzo("lanterna", 2) .addStanzaBuia("Laboratorio",
-		 * "lanterna").addAdiacenza("Atrio", "Biblioteca", "nord")
-		 * .addAdiacenza("Biblioteca", "Atrio", "sud").addAdiacenza("Atrio", "Aula N11",
-		 * "est") .addAdiacenza("Atrio", "Aula N10", "sud").addAdiacenza("Atrio",
-		 * "Laboratorio", "ovest") .addAdiacenza("Aula N11", "Laboratorio",
-		 * "est").addAdiacenza("Aula N11", "Atrio", "ovest") .addAdiacenza("Aula N10",
-		 * "Atrio", "nord").addAdiacenza("Aula N10", "Aula N11", "est")
-		 * .addAdiacenza("Aula N10", "Laboratorio", "ovest").addAdiacenza("Laboratorio",
-		 * "Atrio", "est") .addAdiacenza("Laboratorio", "Aula N11",
-		 * "ovest").getLabirinto()
-		 */
-		DiaDia diaDia = new DiaDia(ioConsole, labirinto);
-		diaDia.gioca();
-		diaDia.getIOConsole().close();
-		// N.B. = per i test ho creato una src folder chiamata test. 271 / 271
 	}
 }
